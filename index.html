@@ -3,121 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Underworld - Premium Online Store</title>
-    <!-- Tailwind CSS & FontAwesome -->
+    <title>Underworld - Premium Shopping Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        .glow-effect {
+            box-shadow: 0 0 25px -5px rgba(239, 68, 68, 0.4);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans pb-16">
+<body class="bg-[#0b0f19] text-gray-100 font-sans pb-20 selection:bg-red-500 selection:text-white">
 
-    <!-- Top Navigation -->
-    <header class="bg-black text-white sticky top-0 z-50 shadow-lg">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center gap-4">
+    <!-- Top Navigation Bar -->
+    <header class="bg-[#111827]/90 backdrop-blur-md border-b border-gray-800 sticky top-0 z-50 shadow-2xl transition-all duration-300">
+        <div class="container mx-auto px-4 py-3.5 flex justify-between items-center gap-4">
             
-            <!-- Unique Brand Logo & Name -->
-            <div onclick="showHomePage()" class="flex items-center gap-2 cursor-pointer select-none">
-                <div class="w-9 h-9 bg-gradient-to-tr from-red-700 to-red-500 rounded-lg flex items-center justify-center shadow-md transform hover:rotate-6 transition">
-                    <i class="fas fa-crown text-white text-lg"></i>
+            <div onclick="showHomePage()" class="flex items-center gap-3 cursor-pointer select-none group">
+                <div class="w-10 h-10 bg-gradient-to-tr from-red-600 via-rose-500 to-amber-500 rounded-xl flex items-center justify-center glow-effect group-hover:scale-110 transition duration-300">
+                    <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
                 </div>
-                <span class="text-xl md:text-2xl font-black tracking-widest text-white">UNDER<span class="text-red-500">WORLD</span></span>
+                <div class="flex flex-col">
+                    <span class="text-xl md:text-2xl font-black tracking-widest text-white leading-none">UNDER<span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-rose-400">WORLD</span></span>
+                    <span class="text-[9px] tracking-widest text-gray-400 font-bold uppercase mt-0.5">Express Shopping</span>
+                </div>
             </div>
 
-            <!-- Search Bar (Desktop) -->
             <div class="hidden md:flex flex-1 max-w-md relative">
-                <input type="text" id="desktop-search" oninput="handleSearch(this.value)" placeholder="Search products..." class="w-full bg-zinc-900 border border-zinc-700 rounded-full py-1.5 pl-10 pr-4 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-red-500">
-                <i class="fas fa-search absolute left-3.5 top-2.5 text-gray-400 text-xs"></i>
+                <input type="text" id="desktop-search" oninput="handleSearch(this.value)" placeholder="Search products..." class="w-full bg-[#1e293b]/70 border border-gray-700/80 rounded-xl py-2 pl-10 pr-4 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-red-500 transition">
+                <i class="fas fa-search absolute left-3.5 top-3 text-gray-400 text-xs"></i>
             </div>
 
-            <!-- Language & Cart -->
             <div class="flex items-center gap-3">
-                <button onclick="toggleLanguage()" id="lang-btn" class="bg-zinc-800 hover:bg-zinc-700 text-xs font-bold px-3 py-1.5 rounded-full border border-zinc-700 transition text-gray-200">
+                <button onclick="toggleLanguage()" id="lang-btn" class="bg-[#1e293b] hover:bg-gray-800 text-xs font-bold px-3.5 py-1.5 rounded-lg border border-gray-700 transition text-gray-200">
                     বাংলা
                 </button>
 
-                <button onclick="toggleCart()" class="relative p-2 bg-zinc-800 rounded-full hover:bg-zinc-700 transition">
-                    <i class="fas fa-shopping-bag text-gray-200"></i>
-                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+                <button onclick="toggleCart()" class="relative p-2.5 bg-gradient-to-r from-red-600 to-rose-600 rounded-xl text-white hover:scale-105 transition shadow-lg shadow-red-600/30">
+                    <i class="fas fa-shopping-bag text-sm"></i>
+                    <span id="cart-count" class="absolute -top-1.5 -right-1.5 bg-white text-red-600 text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-black shadow">0</span>
                 </button>
             </div>
         </div>
 
-        <!-- Search Bar (Mobile) -->
         <div class="px-4 pb-3 md:hidden">
             <div class="relative w-full">
-                <input type="text" id="mobile-search" oninput="handleSearch(this.value)" placeholder="Search products..." class="w-full bg-zinc-900 border border-zinc-700 rounded-full py-1.5 pl-9 pr-4 text-xs text-white placeholder-gray-400 focus:outline-none focus:border-red-500">
-                <i class="fas fa-search absolute left-3 top-2.5 text-gray-400 text-[10px]"></i>
+                <input type="text" id="mobile-search" oninput="handleSearch(this.value)" placeholder="Search products..." class="w-full bg-[#1e293b] border border-gray-700 rounded-lg py-2 pl-9 pr-4 text-xs text-white placeholder-gray-400 focus:outline-none focus:border-red-500">
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-xs"></i>
             </div>
         </div>
     </header>
 
-    <!-- Hero Banner -->
-    <div class="bg-gradient-to-r from-zinc-900 via-black to-zinc-900 text-white py-8 px-4 text-center border-b border-zinc-800">
-        <h2 id="hero-title" class="text-2xl md:text-4xl font-extrabold mb-1 tracking-wide">Premium Collection</h2>
-        <p id="hero-subtitle" class="text-gray-400 text-xs md:text-sm">Find your desired lifestyle, fashion & technology gear</p>
+    <!-- Hero Showcase -->
+    <div class="relative bg-gradient-to-b from-[#111827] via-[#0b0f19] to-[#0b0f19] py-10 px-4 text-center border-b border-gray-800/60 overflow-hidden animate-fade">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-red-900/20 via-transparent to-transparent"></div>
+        <div class="relative z-10 max-w-xl mx-auto">
+            <h2 id="hero-title" class="text-3xl md:text-5xl font-black mb-2 tracking-tight text-white">Premium Collection</h2>
+            <p id="hero-subtitle" class="text-gray-400 text-xs md:text-sm">Find your desired lifestyle, fashion & exclusive technology gear</p>
+        </div>
     </div>
 
-    <!-- Category Nav Bar -->
-    <div class="bg-white shadow-sm sticky top-[60px] md:top-[65px] z-40">
-        <div class="container mx-auto px-4 py-2.5 flex overflow-x-auto gap-2 scrollbar-hide" id="category-bar"></div>
+    <!-- Category Filter Bar -->
+    <div class="bg-[#111827]/80 backdrop-blur-md border-b border-gray-800/80 sticky top-[65px] md:top-[69px] z-40">
+        <div class="container mx-auto px-4 py-3 flex overflow-x-auto gap-2.5 scrollbar-hide" id="category-bar"></div>
     </div>
 
-    <!-- Main Container -->
-    <main class="container mx-auto px-4 py-6">
-        <!-- Home Category View -->
-        <div id="home-view" class="space-y-8"></div>
-
-        <!-- Single Category View -->
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-4 py-8 animate-fade">
+        <div id="home-view" class="space-y-12"></div>
         <div id="category-view" class="hidden">
-            <div class="flex justify-between items-center mb-6 pb-2 border-b">
-                <h3 id="cat-view-title" class="text-xl font-bold"></h3>
-                <button onclick="showHomePage()" class="text-xs md:text-sm text-red-600 font-bold flex items-center gap-1">
+            <div class="flex justify-between items-center mb-6 pb-3 border-b border-gray-800">
+                <h3 id="cat-view-title" class="text-xl md:text-2xl font-bold text-white"></h3>
+                <button onclick="showHomePage()" class="text-xs md:text-sm text-red-400 hover:text-red-300 font-bold flex items-center gap-1.5 transition">
                     <i class="fas fa-arrow-left"></i> <span id="back-home-txt">Back to Home</span>
                 </button>
             </div>
-            <div id="cat-view-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+            <div id="cat-view-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"></div>
         </div>
     </main>
 
-    <!-- Cart Drawer -->
-    <div id="cart-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex justify-end">
-        <div class="bg-white w-full max-w-md h-full flex flex-col p-6 overflow-y-auto">
-            <div class="flex justify-between items-center mb-4 border-b pb-3">
-                <h3 id="cart-drawer-title" class="text-lg font-bold">Shopping Cart</h3>
-                <button onclick="toggleCart()" class="text-2xl">&times;</button>
+    <!-- Footer with Admin Quick Link -->
+    <footer class="bg-[#111827] border-t border-gray-800 py-8 mt-20 text-center text-xs text-gray-400">
+        <div class="container mx-auto px-4 space-y-3">
+            <p>&copy; 2026 <span class="text-white font-bold">Underworld</span>. All Rights Reserved.</p>
+            <p>
+                <a href="admin.html" target="_blank" class="text-red-400 hover:text-red-300 font-semibold transition flex items-center justify-center gap-1.5">
+                    <i class="fas fa-lock"></i> Go to Admin Dashboard
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Cart Modal Drawer -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex justify-end transition-all duration-300">
+        <div class="bg-[#111827] text-white w-full max-w-md h-full flex flex-col p-6 border-l border-gray-800 shadow-2xl animate-fade">
+            <div class="flex justify-between items-center mb-4 border-b border-gray-800 pb-3">
+                <h3 id="cart-drawer-title" class="text-lg font-bold flex items-center gap-2"><i class="fas fa-shopping-bag text-red-500"></i> Shopping Bag</h3>
+                <button onclick="toggleCart()" class="text-2xl text-gray-400 hover:text-white">&times;</button>
             </div>
-            <div id="cart-items" class="flex-1 space-y-3"></div>
-            <div class="border-t pt-4 mt-4">
+            <div id="cart-items" class="flex-1 space-y-3 overflow-y-auto pr-1"></div>
+            <div class="border-t border-gray-800 pt-4 mt-4">
                 <div class="flex justify-between font-bold text-lg mb-4">
                     <span id="total-txt">Total:</span>
-                    <span class="text-red-600">৳<span id="cart-total">0</span></span>
+                    <span class="text-red-400 font-black">৳<span id="cart-total">0</span></span>
                 </div>
-                <button onclick="showCheckout()" id="checkout-btn" class="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-bold">Confirm Order</button>
+                <button onclick="showCheckout()" id="checkout-btn" class="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:scale-[1.02] text-white py-3 rounded-xl font-bold shadow-lg shadow-red-600/30 transition">Confirm Order</button>
             </div>
         </div>
     </div>
 
     <!-- Checkout Modal -->
-    <div id="checkout-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md p-6 rounded-xl shadow-2xl">
-            <h3 id="form-title" class="text-xl font-bold mb-3">Cash On Delivery Order</h3>
-            <form onsubmit="submitOrder(event)" class="space-y-3">
-                <input type="text" id="cust-name" placeholder="Full Name" required class="w-full border p-2.5 rounded text-sm outline-none focus:border-black">
-                <input type="tel" id="cust-phone" placeholder="Phone Number" required class="w-full border p-2.5 rounded text-sm outline-none focus:border-black">
-                <textarea id="cust-address" placeholder="Delivery Address (District, Police Station, Area)" required class="w-full border p-2.5 rounded text-sm outline-none focus:border-black" rows="3"></textarea>
+    <div id="checkout-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-[#111827] text-white w-full max-w-md p-6 rounded-2xl border border-gray-800 shadow-2xl animate-fade">
+            <h3 id="form-title" class="text-xl font-bold mb-4 text-white border-b border-gray-800 pb-2">Cash On Delivery Order</h3>
+            <form onsubmit="submitOrder(event)" class="space-y-3 text-sm">
+                <input type="text" id="cust-name" placeholder="Full Name" required class="w-full bg-[#1e293b] border border-gray-700 p-3 rounded-xl outline-none focus:border-red-500 transition">
+                <input type="tel" id="cust-phone" placeholder="Phone Number" required class="w-full bg-[#1e293b] border border-gray-700 p-3 rounded-xl outline-none focus:border-red-500 transition">
+                <textarea id="cust-address" placeholder="Delivery Address" required class="w-full bg-[#1e293b] border border-gray-700 p-3 rounded-xl outline-none focus:border-red-500 transition" rows="3"></textarea>
                 <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeCheckout()" id="cancel-btn" class="px-4 py-2 bg-gray-200 rounded text-sm">Cancel</button>
-                    <button type="submit" id="place-order-btn" class="px-4 py-2 bg-red-600 text-white rounded text-sm font-bold">Place Order</button>
+                    <button type="button" onclick="closeCheckout()" id="cancel-btn" class="px-4 py-2 bg-gray-800 rounded-xl text-gray-300">Cancel</button>
+                    <button type="submit" id="place-order-btn" class="px-5 py-2 bg-gradient-to-r from-red-600 to-rose-600 rounded-xl text-white font-bold">Place Order</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Firebase & Logic -->
+    <!-- Logic Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // 🔥 আপনার Firebase Keys এখানে বসান
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "YOUR_PROJECT.firebaseapp.com",
@@ -130,7 +160,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        let currentLang = 'en'; // ডিফল্ট ইংলিশ
+        let currentLang = 'en';
         let allProducts = [];
         let cart = [];
 
@@ -150,11 +180,11 @@
         const i18n = {
             en: {
                 heroTitle: "Premium Collection",
-                heroSubtitle: "Find your desired lifestyle, fashion & technology gear",
+                heroSubtitle: "Find your desired lifestyle, fashion & exclusive technology gear",
                 all: "All",
                 viewAll: "View All",
                 addCart: "Add to Bag",
-                cartTitle: "Shopping Cart",
+                cartTitle: "Shopping Bag",
                 total: "Total:",
                 confirmOrder: "Confirm Order",
                 checkoutTitle: "Cash On Delivery Order",
@@ -217,9 +247,9 @@
         function renderCategoryBar() {
             const bar = document.getElementById('category-bar');
             const t = i18n[currentLang];
-            let html = `<button onclick="showHomePage()" class="px-3.5 py-1.5 rounded-full bg-black text-white text-xs font-semibold whitespace-nowrap">${t.all}</button>`;
+            let html = `<button onclick="showHomePage()" class="px-4 py-1.5 rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white text-xs font-bold whitespace-nowrap shadow-md transition hover:scale-105">${t.all}</button>`;
             categories.forEach(c => {
-                html += `<button onclick="viewFullCategory('${c.id}')" class="px-3.5 py-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-xs font-semibold whitespace-nowrap">${currentLang === 'en' ? c.en : c.bn}</button>`;
+                html += `<button onclick="viewFullCategory('${c.id}')" class="px-4 py-1.5 rounded-lg bg-[#1e293b] hover:bg-gray-800 text-gray-300 hover:text-white border border-gray-700/60 text-xs font-semibold whitespace-nowrap transition hover:scale-105">${currentLang === 'en' ? c.en : c.bn}</button>`;
             });
             bar.innerHTML = html;
         }
@@ -235,13 +265,15 @@
         function getCardHTML(p) {
             const t = i18n[currentLang];
             return `
-                <div class="bg-white rounded-lg border shadow-sm p-3 flex flex-col justify-between hover:shadow-md transition">
-                    <img src="${p.img}" alt="${p.title}" class="h-36 sm:h-44 w-full object-cover rounded mb-2 bg-gray-50">
-                    <div>
-                        <h4 class="font-bold text-xs sm:text-sm line-clamp-1">${p.title}</h4>
-                        <p class="text-red-600 font-extrabold text-sm sm:text-base mt-1">৳${p.price}</p>
+                <div class="bg-[#111827] rounded-2xl border border-gray-800/90 p-3.5 flex flex-col justify-between card-hover transition duration-300 group">
+                    <div class="overflow-hidden rounded-xl bg-gray-900 mb-3">
+                        <img src="${p.img}" alt="${p.title}" class="h-40 sm:h-48 w-full object-cover group-hover:scale-110 transition duration-500">
                     </div>
-                    <button onclick="addToCart('${p.id}')" class="mt-3 bg-black hover:bg-zinc-800 text-white text-xs py-1.5 rounded font-medium">${t.addCart}</button>
+                    <div>
+                        <h4 class="font-bold text-xs sm:text-sm text-gray-200 line-clamp-1 group-hover:text-red-400 transition">${p.title}</h4>
+                        <p class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-rose-400 font-black text-sm sm:text-base mt-1">৳${p.price}</p>
+                    </div>
+                    <button onclick="addToCart('${p.id}')" class="mt-3.5 w-full bg-[#1e293b] hover:bg-gradient-to-r hover:from-red-600 hover:to-rose-600 text-gray-200 hover:text-white border border-gray-700 hover:border-transparent text-xs py-2 rounded-xl font-bold transition duration-200 hover:scale-[1.02]">${t.addCart}</button>
                 </div>
             `;
         }
@@ -261,14 +293,14 @@
                 const title = currentLang === 'en' ? cat.en : cat.bn;
 
                 home.innerHTML += `
-                    <section class="bg-white p-4 rounded-xl border shadow-sm">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-base md:text-lg font-bold border-l-4 border-red-500 pl-2">${title}</h3>
-                            <button onclick="viewFullCategory('${cat.id}')" class="text-xs font-bold text-red-600 hover:underline flex items-center gap-1">
-                                ${t.viewAll} (${prods.length}) <i class="fas fa-arrow-right"></i>
+                    <section class="bg-[#111827]/40 p-5 rounded-2xl border border-gray-800/80 animate-fade">
+                        <div class="flex justify-between items-center mb-5">
+                            <h3 class="text-base md:text-lg font-black tracking-wide text-white border-l-4 border-red-500 pl-2.5">${title}</h3>
+                            <button onclick="viewFullCategory('${cat.id}')" class="text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-1 transition hover:translate-x-1">
+                                ${t.viewAll} (${prods.length}) <i class="fas fa-arrow-right text-[10px]"></i>
                             </button>
                         </div>
-                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
                             ${topFour.map(p => getCardHTML(p)).join('')}
                         </div>
                     </section>
@@ -321,12 +353,12 @@
             cart.forEach((p, idx) => {
                 total += Number(p.price);
                 container.innerHTML += `
-                    <div class="flex justify-between items-center border-b pb-2 text-sm">
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2 text-sm">
                         <div>
-                            <p class="font-bold">${p.title}</p>
-                            <p class="text-xs text-gray-500">৳${p.price}</p>
+                            <p class="font-bold text-gray-200">${p.title}</p>
+                            <p class="text-xs text-red-400 font-semibold">৳${p.price}</p>
                         </div>
-                        <button onclick="removeFromCart(${idx})" class="text-red-500 font-bold">&times;</button>
+                        <button onclick="removeFromCart(${idx})" class="text-red-500 font-bold p-1 hover:text-red-400">&times;</button>
                     </div>
                 `;
             });
