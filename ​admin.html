@@ -101,14 +101,14 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // 🔥 আপনার Firebase Keys এখানে বসান
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyCqvllCwLU_c_jcMm7kGtFcfjacqfbv8XE",
+            authDomain: "hisab-ghor-ab9df.firebaseapp.com",
+            projectId: "hisab-ghor-ab9df",
+            storageBucket: "hisab-ghor-ab9df.firebasestorage.app",
+            messagingSenderId: "704142339855",
+            appId: "1:704142339855:web:331d04ae8da79172a2d87a",
+            measurementId: "G-NRV7MVKJHT"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -144,7 +144,6 @@
         };
 
         async function loadAllData() {
-            // Orders
             const orderBox = document.getElementById('orders-list');
             orderBox.innerHTML = '<p class="text-xs text-gray-500">Loading orders...</p>';
             const orderSnap = await getDocs(collection(db, "orders"));
@@ -162,7 +161,6 @@
                 `;
             });
 
-            // Products
             const prodBox = document.getElementById('products-list');
             prodBox.innerHTML = '<p class="text-xs text-gray-500">Loading products...</p>';
             const prodSnap = await getDocs(collection(db, "products"));
