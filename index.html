@@ -21,9 +21,6 @@
         .bg-sand-hero {
             background-color: #e8dfd1;
         }
-        .bg-sand-card {
-            background-color: #eee7db;
-        }
         .text-dark-coffee {
             color: #3e2b26;
         }
@@ -60,8 +57,8 @@
     <header class="bg-[#f7f3ec]/95 backdrop-blur-md sticky top-0 z-50 border-b border-[#e5dcce]">
         <div class="container mx-auto px-4 py-3.5 flex justify-between items-center gap-4">
             
-            <!-- Brand Name & Logo -->
-            <div onclick="showHomePage()" class="cursor-pointer select-none">
+            <!-- Brand Name & Logo (Triple Tap Secret Trigger) -->
+            <div id="brand-logo" onclick="handleSecretClick()" class="cursor-pointer select-none">
                 <span class="text-xl md:text-2xl font-bold tracking-[0.2em] font-cinzel text-dark-coffee uppercase">Underworld</span>
             </div>
 
@@ -71,13 +68,8 @@
                 <i class="fas fa-search absolute left-3.5 top-3 text-gray-400 text-xs"></i>
             </div>
 
-            <!-- Language, Admin & Cart -->
+            <!-- Language & Cart -->
             <div class="flex items-center gap-2.5">
-                <!-- Secret Admin Trigger Button (Shows only with #admin in URL) -->
-                <button id="secret-admin-btn" onclick="openAdminLogin()" class="hidden bg-[#3e2b26] text-white text-xs font-bold px-3.5 py-1.5 rounded-full transition shadow-xs flex items-center gap-1.5">
-                    <i class="fas fa-lock text-[10px]"></i> Admin
-                </button>
-
                 <button onclick="toggleLanguage()" id="lang-btn" class="bg-[#e8dfd1] hover:bg-[#dcd1c2] text-dark-coffee text-xs font-bold px-3.5 py-1.5 rounded-full transition">
                     বাংলা
                 </button>
@@ -110,9 +102,8 @@
                 <p id="hero-subtitle" class="text-[#64534e] text-xs md:text-sm mb-6 leading-relaxed">
                     Elevate Your Style. Premium fashion, modern accessories, smart lifestyle & aesthetic essentials for everyone.
                 </p>
-                <div class="flex items-center justify-center md:justify-start gap-3">
-                    <button onclick="scrollToProducts()" class="btn-coffee text-xs font-bold px-6 py-3 rounded-full uppercase tracking-wider transition">Shop Now</button>
-                    <button onclick="openAdminLogin()" class="bg-[#dcd1c2] hover:bg-[#cfc2b1] text-dark-coffee text-xs font-bold px-5 py-3 rounded-full uppercase tracking-wider transition">Admin</button>
+                <div class="flex items-center justify-center md:justify-start">
+                    <button onclick="scrollToProducts()" class="btn-coffee text-xs font-bold px-8 py-3 rounded-full uppercase tracking-wider transition">Shop Now</button>
                 </div>
             </div>
 
@@ -165,7 +156,7 @@
             </div>
         </div>
 
-        <!-- Rounded Thumbnail Categories Section -->
+        <!-- Categories Section -->
         <section class="bg-sand-hero rounded-3xl p-6 border border-[#ded3c3] my-8">
             <h3 class="text-center font-cinzel text-xl md:text-2xl font-bold text-dark-coffee mb-6">Categories</h3>
             <div class="flex overflow-x-auto gap-4 md:gap-6 justify-start md:justify-center scrollbar-none pb-2" id="round-category-bar"></div>
@@ -189,15 +180,10 @@
         </div>
     </main>
 
-    <!-- Footer -->
+    <!-- Clean Footer (No Admin Links) -->
     <footer class="mt-20 border-t border-[#e5dcce] bg-sand-hero py-8 text-center text-xs text-gray-600">
-        <div class="container mx-auto px-4 space-y-2">
+        <div class="container mx-auto px-4">
             <p>&copy; 2026 <span class="font-bold text-dark-coffee font-cinzel">UNDERWORLD</span>. All Rights Reserved.</p>
-            <p>
-                <button onclick="openAdminLogin()" class="text-dark-coffee hover:underline font-semibold inline-flex items-center gap-1">
-                    <i class="fas fa-lock text-[10px]"></i> Admin Dashboard
-                </button>
-            </p>
         </div>
     </footer>
 
@@ -237,17 +223,17 @@
         </div>
     </div>
 
-    <!-- Admin Modal -->
-    <div id="admin-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+    <!-- Completely Hidden Secret Admin Modal -->
+    <div id="admin-modal" class="fixed inset-0 bg-black/70 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
         <div class="bg-white p-6 rounded-3xl w-full max-w-lg border border-[#e5dcce] shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeAdmin()" class="absolute top-4 right-4 text-gray-400 hover:text-black font-bold text-lg"><i class="fas fa-times"></i></button>
             
             <!-- Login View -->
             <div id="admin-login-box">
-                <h3 class="text-xl font-bold font-cinzel text-dark-coffee mb-4 text-center">Admin Login</h3>
+                <h3 class="text-xl font-bold font-cinzel text-dark-coffee mb-4 text-center">Secret Admin Login</h3>
                 <form onsubmit="verifyAdmin(event)" class="space-y-3">
-                    <input type="password" id="admin-pass-input" placeholder="Enter Password (admin123)" required class="w-full bg-[#fdfbf9] border border-[#dcd1c2] p-3 rounded-2xl text-sm outline-none focus:border-[#3e2b26]">
-                    <button type="submit" class="w-full btn-coffee font-bold py-3 rounded-2xl text-sm shadow">Login</button>
+                    <input type="password" id="admin-pass-input" placeholder="Enter Admin Password" required class="w-full bg-[#fdfbf9] border border-[#dcd1c2] p-3 rounded-2xl text-sm outline-none focus:border-[#3e2b26]">
+                    <button type="submit" class="w-full btn-coffee font-bold py-3 rounded-2xl text-sm shadow">Verify & Open</button>
                 </form>
             </div>
 
@@ -322,6 +308,104 @@
         let allProducts = [];
         let cart = [];
 
+        // Secret Triple Tap Trigger on Logo
+        let secretClickCount = 0;
+        let secretTimer = null;
+        window.handleSecretClick = () => {
+            secretClickCount++;
+            clearTimeout(secretTimer);
+            if(secretClickCount >= 3) {
+                openAdminLogin();
+                secretClickCount = 0;
+            } else {
+                secretTimer = setTimeout(() => {
+                    if (secretClickCount < 3) showHomePage();
+                    secretClickCount = 0;
+                }, 400);
+            }
+        };
+
+        // Secret URL Hash Trigger
+        if(window.location.hash === "#admin") {
+            setTimeout(openAdminLogin, 500);
+        }
+
+        window.openAdminLogin = () => {
+            const modal = document.getElementById('admin-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        };
+
+        window.closeAdmin = () => {
+            const modal = document.getElementById('admin-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            window.location.hash = '';
+        };
+
+        window.verifyAdmin = (e) => {
+            e.preventDefault();
+            if(document.getElementById('admin-pass-input').value === "admin123") {
+                document.getElementById('admin-login-box').classList.add('hidden');
+                document.getElementById('admin-dashboard-box').classList.remove('hidden');
+                loadAdminProducts();
+            } else {
+                alert('Wrong Password!');
+            }
+        };
+
+        window.logoutAdmin = () => {
+            document.getElementById('admin-login-box').classList.remove('hidden');
+            document.getElementById('admin-dashboard-box').classList.add('hidden');
+            document.getElementById('admin-pass-input').value = '';
+            closeAdmin();
+        };
+
+        window.addNewProduct = async (e) => {
+            e.preventDefault();
+            const product = {
+                title: document.getElementById('p-title').value,
+                price: document.getElementById('p-price').value,
+                img: document.getElementById('p-img').value,
+                category: document.getElementById('p-cat').value
+            };
+            await addDoc(collection(db, "products"), product);
+            alert('Product Added Successfully!');
+            e.target.reset();
+            loadAdminProducts();
+            loadProducts();
+        };
+
+        async function loadAdminProducts() {
+            const list = document.getElementById('admin-product-list');
+            list.innerHTML = '<p class="text-gray-400 text-xs">Loading...</p>';
+            const snap = await getDocs(collection(db, "products"));
+            list.innerHTML = '';
+            snap.forEach(d => {
+                const p = d.data();
+                list.innerHTML += `
+                    <div class="flex justify-between items-center bg-white border border-[#e5dcce] p-2 rounded-xl text-xs">
+                        <div class="flex items-center gap-2 truncate">
+                            <img src="${p.img}" class="w-8 h-8 object-cover rounded-lg bg-gray-100">
+                            <span class="truncate font-semibold">${p.title}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-dark-coffee font-bold">৳${p.price}</span>
+                            <button onclick="deleteProd('${d.id}')" class="text-red-500 hover:text-red-700 font-bold px-2"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        window.deleteProd = async (id) => {
+            if(confirm('Are you sure to delete this product?')) {
+                await deleteDoc(doc(db, "products", id));
+                loadAdminProducts();
+                loadProducts();
+            }
+        };
+
         const categories = [
             { id: 'mens_fashion', en: "Men's fashion", bn: "ছেলেদের ফ্যাশন", img: "https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=200&auto=format&fit=crop" },
             { id: 'womans_fashion', en: "Woman's fashion", bn: "মেয়েদের ফ্যাশন", img: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=200&auto=format&fit=crop" },
@@ -375,85 +459,6 @@
                 emptyCart: "ব্যাগ খালি!",
                 addedAlert: "পণ্যটি ব্যাগে যোগ করা হয়েছে!",
                 orderSuccess: "ধন্যবাদ! আপনার অর্ডারটি সফলভাবে গ্রহণ করা হয়েছে।"
-            }
-        };
-
-        if(window.location.hash === "#admin") {
-            const adminBtn = document.getElementById('secret-admin-btn');
-            if(adminBtn) adminBtn.classList.remove('hidden');
-        }
-
-        window.openAdminLogin = () => {
-            const modal = document.getElementById('admin-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        };
-
-        window.closeAdmin = () => {
-            const modal = document.getElementById('admin-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        };
-
-        window.verifyAdmin = (e) => {
-            e.preventDefault();
-            if(document.getElementById('admin-pass-input').value === "admin123") {
-                document.getElementById('admin-login-box').classList.add('hidden');
-                document.getElementById('admin-dashboard-box').classList.remove('hidden');
-                loadAdminProducts();
-            } else {
-                alert('Wrong Password!');
-            }
-        };
-
-        window.logoutAdmin = () => {
-            document.getElementById('admin-login-box').classList.remove('hidden');
-            document.getElementById('admin-dashboard-box').classList.add('hidden');
-            document.getElementById('admin-pass-input').value = '';
-        };
-
-        window.addNewProduct = async (e) => {
-            e.preventDefault();
-            const product = {
-                title: document.getElementById('p-title').value,
-                price: document.getElementById('p-price').value,
-                img: document.getElementById('p-img').value,
-                category: document.getElementById('p-cat').value
-            };
-            await addDoc(collection(db, "products"), product);
-            alert('Product Added Successfully!');
-            e.target.reset();
-            loadAdminProducts();
-            loadProducts();
-        };
-
-        async function loadAdminProducts() {
-            const list = document.getElementById('admin-product-list');
-            list.innerHTML = '<p class="text-gray-400 text-xs">Loading...</p>';
-            const snap = await getDocs(collection(db, "products"));
-            list.innerHTML = '';
-            snap.forEach(d => {
-                const p = d.data();
-                list.innerHTML += `
-                    <div class="flex justify-between items-center bg-white border border-[#e5dcce] p-2 rounded-xl text-xs">
-                        <div class="flex items-center gap-2 truncate">
-                            <img src="${p.img}" class="w-8 h-8 object-cover rounded-lg bg-gray-100">
-                            <span class="truncate font-semibold">${p.title}</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-dark-coffee font-bold">৳${p.price}</span>
-                            <button onclick="deleteProd('${d.id}')" class="text-red-500 hover:text-red-700 font-bold px-2"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        window.deleteProd = async (id) => {
-            if(confirm('Are you sure to delete this product?')) {
-                await deleteDoc(doc(db, "products", id));
-                loadAdminProducts();
-                loadProducts();
             }
         };
 
