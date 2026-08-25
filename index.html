@@ -3,205 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UNDERWORLD - Luxury & Lifestyle Store</title>
+    <title>UNDERWORLD - The Signature of Style</title>
     <!-- Tailwind CSS & FontAwesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #faf6f5;
+            background-color: #f7f3ec;
+            color: #2e2320;
         }
-        .font-serif-luxury {
-            font-family: 'Playfair Display', serif;
+        .font-cinzel {
+            font-family: 'Cinzel', serif;
         }
-        .bg-burgundy-theme {
-            background-color: #722f37;
+        .bg-sand-hero {
+            background-color: #e8dfd1;
         }
-        .text-burgundy {
-            color: #722f37;
+        .bg-sand-card {
+            background-color: #eee7db;
         }
-        .border-burgundy {
-            border-color: #722f37;
+        .text-dark-coffee {
+            color: #3e2b26;
         }
-        .hero-gradient {
-            background: linear-gradient(135deg, #8b3a44 0%, #68262e 100%);
+        .btn-coffee {
+            background-color: #3e2b26;
+            color: #ffffff;
         }
-        .card-shadow {
-            box-shadow: 0 4px 20px -2px rgba(114, 47, 55, 0.08);
-        }
-        .card-shadow:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px -4px rgba(114, 47, 55, 0.15);
+        .btn-coffee:hover {
+            background-color: #241714;
         }
         .scrollbar-none::-webkit-scrollbar {
             display: none;
         }
+        .card-aesthetic {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 4px 18px rgba(62, 43, 38, 0.05);
+            transition: all 0.3s ease;
+        }
+        .card-aesthetic:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(62, 43, 38, 0.12);
+        }
     </style>
 </head>
-<body class="text-gray-800 pb-20 selection:bg-[#722f37] selection:text-white">
+<body class="selection:bg-[#3e2b26] selection:text-white pb-16">
 
-    <!-- Top Navigation -->
-    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-[#f0e4e2] shadow-sm">
-        <div class="container mx-auto px-4 py-3.5 flex justify-between items-center gap-3">
+    <!-- Top Notice Bar (Salmon / Terracotta Tone) -->
+    <div class="bg-[#d98270] text-white text-[11px] py-1.5 text-center font-medium tracking-wide">
+        Free Delivery on Orders Above ৳২,০০০ | Cash on Delivery Available
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="bg-[#f7f3ec]/95 backdrop-blur-md sticky top-0 z-50 border-b border-[#e5dcce]">
+        <div class="container mx-auto px-4 py-3.5 flex justify-between items-center gap-4">
             
-            <!-- Unique Shopping 'U' Logo -->
-            <div onclick="showHomePage()" class="flex items-center gap-2.5 cursor-pointer select-none group">
-                <div class="w-9 h-9 bg-burgundy-theme text-white rounded-lg flex items-center justify-center shadow-md shadow-red-950/20 group-hover:scale-105 transition">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <path d="M16 10a4 4 0 0 1-8 0"></path>
-                    </svg>
-                </div>
-                <span class="text-xl md:text-2xl font-black tracking-wider text-burgundy font-serif-luxury uppercase">Underworld</span>
+            <!-- Brand Name & Logo -->
+            <div onclick="showHomePage()" class="cursor-pointer select-none">
+                <span class="text-xl md:text-2xl font-bold tracking-[0.2em] font-cinzel text-dark-coffee uppercase">Underworld</span>
             </div>
 
-            <!-- Search Bar (Desktop) -->
-            <div class="hidden md:flex flex-1 max-w-md relative">
-                <input type="text" id="desktop-search" oninput="handleSearch(this.value)" placeholder="Search products..." class="w-full bg-[#fbf8f7] border border-[#e8d8d6] rounded-full py-2 pl-10 pr-4 text-xs md:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#722f37]">
-                <i class="fas fa-search absolute left-3.5 top-3 text-[#a88d8b] text-xs"></i>
+            <!-- Desktop Search Bar -->
+            <div class="hidden md:flex flex-1 max-w-sm relative">
+                <input type="text" id="desktop-search" oninput="handleSearch(this.value)" placeholder="Search products..." class="w-full bg-[#fdfbf9] border border-[#dcd1c2] rounded-full py-2 pl-10 pr-4 text-xs text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#3e2b26]">
+                <i class="fas fa-search absolute left-3.5 top-3 text-gray-400 text-xs"></i>
             </div>
 
-            <!-- Controls (Lang & Cart) -->
+            <!-- Language & Cart -->
             <div class="flex items-center gap-2.5">
-                <button onclick="toggleLanguage()" id="lang-btn" class="bg-[#f7ecea] hover:bg-[#f0dfdc] text-burgundy text-xs font-bold px-3 py-1.5 rounded-full transition flex items-center gap-1.5">
-                    <i class="fas fa-globe text-[11px]"></i> <span>বাংলা</span>
+                <button onclick="toggleLanguage()" id="lang-btn" class="bg-[#e8dfd1] hover:bg-[#dcd1c2] text-dark-coffee text-xs font-bold px-3.5 py-1.5 rounded-full transition">
+                    বাংলা
                 </button>
 
-                <button onclick="toggleCart()" class="relative p-2.5 bg-burgundy-theme text-white rounded-full hover:opacity-90 transition shadow-md shadow-red-950/20">
+                <button onclick="toggleCart()" class="relative p-2.5 bg-[#3e2b26] text-white rounded-full hover:bg-black transition shadow-sm">
                     <i class="fas fa-shopping-bag text-xs"></i>
-                    <span id="cart-count" class="absolute -top-1 -right-1 bg-white text-burgundy text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-black border border-[#e8d8d6]">0</span>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-[#d98270] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
                 </button>
             </div>
         </div>
 
-        <!-- Search Bar (Mobile) -->
+        <!-- Mobile Search Bar -->
         <div class="px-4 pb-3 md:hidden">
             <div class="relative w-full">
-                <input type="text" id="mobile-search" oninput="handleSearch(this.value)" placeholder="Search products..." class="w-full bg-[#fbf8f7] border border-[#e8d8d6] rounded-full py-2 pl-9 pr-4 text-xs text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#722f37]">
-                <i class="fas fa-search absolute left-3 top-2.5 text-[#a88d8b] text-xs"></i>
+                <input type="text" id="mobile-search" oninput="handleSearch(this.value)" placeholder="Search products..." class="w-full bg-[#fdfbf9] border border-[#dcd1c2] rounded-full py-2 pl-9 pr-4 text-xs text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#3e2b26]">
+                <i class="fas fa-search absolute left-3 top-2.5 text-gray-400 text-xs"></i>
             </div>
         </div>
     </header>
 
     <div class="container mx-auto px-4 pt-4">
-        <!-- Hero Burgundy Banner -->
-        <div class="hero-gradient text-white rounded-2xl p-6 md:p-10 shadow-lg relative overflow-hidden">
-            <div class="relative z-10 max-w-xl">
-                <span class="text-[10px] md:text-xs tracking-[0.2em] uppercase font-bold text-[#f7ecea] flex items-center gap-2 mb-2">
-                    <span class="w-6 h-[1.5px] bg-white inline-block"></span> EXCLUSIVE COLLECTION
-                </span>
-                <h2 id="hero-title" class="text-3xl md:text-5xl font-serif-luxury font-bold leading-tight mb-3">Elegance Redefined</h2>
-                <p id="hero-subtitle" class="text-[#f7ecea] text-xs md:text-sm font-normal leading-relaxed">Adorn yourself with our timeless collection of premium products and exquisite essentials.</p>
+        
+        <!-- Hero Section (Nude Sand Background) -->
+        <section class="bg-sand-hero rounded-3xl p-6 md:p-12 overflow-hidden relative border border-[#ded3c3] flex flex-col-reverse md:flex-row items-center justify-between gap-8">
+            <div class="max-w-md z-10 text-center md:text-left">
+                <span class="text-[11px] md:text-xs tracking-[0.25em] font-bold text-[#82716a] uppercase block mb-2">Modern Unisex Fashion</span>
+                <h1 id="hero-title" class="text-3xl md:text-5xl font-cinzel font-bold text-dark-coffee leading-tight mb-3">
+                    THE SIGNATURE <br>OF STYLE!
+                </h1>
+                <p id="hero-subtitle" class="text-[#64534e] text-xs md:text-sm mb-6 leading-relaxed">
+                    Elevate Your Style. Premium fashion, modern accessories, smart lifestyle & aesthetic essentials for everyone.
+                </p>
+                <div class="flex items-center justify-center md:justify-start gap-3">
+                    <button onclick="scrollToProducts()" class="btn-coffee text-xs font-bold px-6 py-3 rounded-full uppercase tracking-wider transition">Shop Now</button>
+                    <a href="admin.html" class="bg-[#dcd1c2] hover:bg-[#cfc2b1] text-dark-coffee text-xs font-bold px-5 py-3 rounded-full uppercase tracking-wider transition">Admin</a>
+                </div>
+            </div>
+
+            <!-- Unisex Model Image (Men & Women) -->
+            <div class="w-full md:w-1/2 flex justify-center">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop" alt="Fashion Models" class="rounded-2xl max-h-[380px] w-full object-cover shadow-sm">
+            </div>
+        </section>
+
+        <!-- 4 Badges -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 my-8">
+            <div class="bg-white p-4 rounded-2xl border border-[#e5dcce] flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-[#f7f3ec] text-dark-coffee flex items-center justify-center text-sm shrink-0">
+                    <i class="fas fa-truck-fast"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs text-gray-800">Free Delivery</h4>
+                    <p class="text-[10px] text-gray-500">Orders above ৳২,০০০</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-[#e5dcce] flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-[#f7f3ec] text-dark-coffee flex items-center justify-center text-sm shrink-0">
+                    <i class="fas fa-box-open"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs text-gray-800">Easy Returns</h4>
+                    <p class="text-[10px] text-gray-500">7 Days return policy</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-[#e5dcce] flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-[#f7f3ec] text-dark-coffee flex items-center justify-center text-sm shrink-0">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs text-gray-800">Customer Support</h4>
+                    <p class="text-[10px] text-gray-500">24/7 Dedicated help</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-[#e5dcce] flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-[#f7f3ec] text-dark-coffee flex items-center justify-center text-sm shrink-0">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs text-gray-800">Secure Guarantee</h4>
+                    <p class="text-[10px] text-gray-500">100% Cash on delivery</p>
+                </div>
             </div>
         </div>
 
-        <!-- 3 Feature Cards -->
-        <div class="grid grid-cols-3 gap-2 md:gap-4 my-5">
-            <div class="bg-white p-3 md:p-4 rounded-xl border border-[#f0e4e2] flex items-center gap-2.5 shadow-sm">
-                <div class="w-8 h-8 rounded-lg bg-[#fbf2f0] text-burgundy flex items-center justify-center shrink-0">
-                    <i class="fas fa-truck-fast text-xs md:text-sm"></i>
-                </div>
-                <div>
-                    <h4 class="font-bold text-[11px] md:text-xs text-gray-800 leading-none">Fast Delivery</h4>
-                    <p class="text-[9px] md:text-[10px] text-gray-500 mt-0.5 hidden sm:block">All over Bangladesh</p>
-                </div>
-            </div>
+        <!-- Rounded Thumbnail Categories Section -->
+        <section class="bg-sand-hero rounded-3xl p-6 border border-[#ded3c3] my-8">
+            <h3 class="text-center font-cinzel text-xl md:text-2xl font-bold text-dark-coffee mb-6">Categories</h3>
+            <div class="flex overflow-x-auto gap-4 md:gap-6 justify-start md:justify-center scrollbar-none pb-2" id="round-category-bar"></div>
+        </section>
 
-            <div class="bg-white p-3 md:p-4 rounded-xl border border-[#f0e4e2] flex items-center gap-2.5 shadow-sm">
-                <div class="w-8 h-8 rounded-lg bg-[#fbf2f0] text-burgundy flex items-center justify-center shrink-0">
-                    <i class="fas fa-hand-holding-dollar text-xs md:text-sm"></i>
-                </div>
-                <div>
-                    <h4 class="font-bold text-[11px] md:text-xs text-gray-800 leading-none">Cash On Delivery</h4>
-                    <p class="text-[9px] md:text-[10px] text-gray-500 mt-0.5 hidden sm:block">Pay after checking</p>
-                </div>
-            </div>
-
-            <div class="bg-white p-3 md:p-4 rounded-xl border border-[#f0e4e2] flex items-center gap-2.5 shadow-sm">
-                <div class="w-8 h-8 rounded-lg bg-[#fbf2f0] text-burgundy flex items-center justify-center shrink-0">
-                    <i class="fas fa-gem text-xs md:text-sm"></i>
-                </div>
-                <div>
-                    <h4 class="font-bold text-[11px] md:text-xs text-gray-800 leading-none">100% Premium</h4>
-                    <p class="text-[9px] md:text-[10px] text-gray-500 mt-0.5 hidden sm:block">Finest Quality</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Category Pill Bar -->
-        <div class="flex overflow-x-auto gap-2 py-2 scrollbar-none" id="category-bar"></div>
     </div>
 
-    <!-- Main Content Area -->
-    <main class="container mx-auto px-4 py-4">
-        <!-- Home Category-by-Category View -->
-        <div id="home-view" class="space-y-8"></div>
+    <!-- Main Products Showcase -->
+    <main class="container mx-auto px-4" id="main-products-sec">
+        <div id="home-view" class="space-y-12"></div>
 
         <!-- Single Category View -->
         <div id="category-view" class="hidden">
-            <div class="flex justify-between items-center mb-6 pb-2 border-b border-[#e8d8d6]">
-                <h3 id="cat-view-title" class="text-lg md:text-xl font-bold font-serif-luxury text-burgundy"></h3>
-                <button onclick="showHomePage()" class="text-xs font-bold text-burgundy hover:underline flex items-center gap-1">
+            <div class="flex justify-between items-center mb-6 pb-2 border-b border-[#e5dcce]">
+                <h3 id="cat-view-title" class="text-xl md:text-2xl font-bold font-cinzel text-dark-coffee"></h3>
+                <button onclick="showHomePage()" class="text-xs font-bold text-dark-coffee hover:underline flex items-center gap-1">
                     <i class="fas fa-arrow-left text-[10px]"></i> <span id="back-home-txt">Back to Home</span>
                 </button>
             </div>
-            <div id="cat-view-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 md:gap-5"></div>
+            <div id="cat-view-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"></div>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="mt-16 bg-white border-t border-[#f0e4e2] py-8 text-center text-xs text-gray-500">
+    <footer class="mt-20 border-t border-[#e5dcce] bg-sand-hero py-8 text-center text-xs text-gray-600">
         <div class="container mx-auto px-4 space-y-2">
-            <p>&copy; 2026 <span class="font-bold text-burgundy font-serif-luxury">UNDERWORLD</span>. All Rights Reserved.</p>
+            <p>&copy; 2026 <span class="font-bold text-dark-coffee font-cinzel">UNDERWORLD</span>. All Rights Reserved.</p>
             <p>
-                <a href="admin.html" target="_blank" class="text-burgundy hover:underline font-semibold inline-flex items-center gap-1">
+                <a href="admin.html" target="_blank" class="text-dark-coffee hover:underline font-semibold inline-flex items-center gap-1">
                     <i class="fas fa-lock text-[10px]"></i> Admin Dashboard
                 </a>
             </p>
         </div>
     </footer>
 
-    <!-- Cart Drawer Modal -->
-    <div id="cart-modal" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 hidden flex justify-end">
-        <div class="bg-white w-full max-w-md h-full flex flex-col p-6 shadow-2xl border-l border-[#f0e4e2]">
-            <div class="flex justify-between items-center mb-4 border-b border-[#f0e4e2] pb-3">
-                <h3 id="cart-drawer-title" class="text-base font-bold font-serif-luxury text-burgundy flex items-center gap-2">
+    <!-- Cart Drawer -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex justify-end">
+        <div class="bg-[#fdfbf9] w-full max-w-md h-full flex flex-col p-6 shadow-2xl border-l border-[#e5dcce]">
+            <div class="flex justify-between items-center mb-4 border-b border-[#e5dcce] pb-3">
+                <h3 id="cart-drawer-title" class="text-base font-bold font-cinzel text-dark-coffee flex items-center gap-2">
                     <i class="fas fa-shopping-bag"></i> Shopping Bag
                 </h3>
                 <button onclick="toggleCart()" class="text-2xl text-gray-400 hover:text-gray-700">&times;</button>
             </div>
             <div id="cart-items" class="flex-1 space-y-3 overflow-y-auto pr-1"></div>
-            <div class="border-t border-[#f0e4e2] pt-4 mt-4">
+            <div class="border-t border-[#e5dcce] pt-4 mt-4">
                 <div class="flex justify-between font-bold text-base mb-4">
                     <span id="total-txt">Total:</span>
-                    <span class="text-burgundy font-black text-lg">৳<span id="cart-total">0</span></span>
+                    <span class="text-dark-coffee font-black text-lg">৳<span id="cart-total">0</span></span>
                 </div>
-                <button onclick="showCheckout()" id="checkout-btn" class="w-full bg-burgundy-theme text-white py-3 rounded-xl font-bold shadow-md shadow-red-950/20 hover:opacity-95 transition">Confirm Order</button>
+                <button onclick="showCheckout()" id="checkout-btn" class="w-full btn-coffee py-3.5 rounded-full font-bold shadow-md hover:opacity-95 transition">Confirm Order</button>
             </div>
         </div>
     </div>
 
     <!-- Checkout Modal -->
     <div id="checkout-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md p-6 rounded-2xl border border-[#f0e4e2] shadow-2xl">
-            <h3 id="form-title" class="text-lg font-bold font-serif-luxury text-burgundy mb-3">Cash On Delivery Order</h3>
+        <div class="bg-[#fdfbf9] w-full max-w-md p-6 rounded-3xl border border-[#e5dcce] shadow-2xl">
+            <h3 id="form-title" class="text-lg font-bold font-cinzel text-dark-coffee mb-3">Cash On Delivery Order</h3>
             <form onsubmit="submitOrder(event)" class="space-y-3 text-xs">
-                <input type="text" id="cust-name" placeholder="Full Name" required class="w-full bg-[#fbf8f7] border border-[#e8d8d6] p-2.5 rounded-xl outline-none focus:border-[#722f37]">
-                <input type="tel" id="cust-phone" placeholder="Phone Number" required class="w-full bg-[#fbf8f7] border border-[#e8d8d6] p-2.5 rounded-xl outline-none focus:border-[#722f37]">
-                <textarea id="cust-address" placeholder="Delivery Address (District, Police Station, Area)" required class="w-full bg-[#fbf8f7] border border-[#e8d8d6] p-2.5 rounded-xl outline-none focus:border-[#722f37]" rows="3"></textarea>
+                <input type="text" id="cust-name" placeholder="Full Name" required class="w-full bg-white border border-[#dcd1c2] p-3 rounded-2xl outline-none focus:border-[#3e2b26]">
+                <input type="tel" id="cust-phone" placeholder="Phone Number" required class="w-full bg-white border border-[#dcd1c2] p-3 rounded-2xl outline-none focus:border-[#3e2b26]">
+                <textarea id="cust-address" placeholder="Delivery Address (District, Police Station, Area)" required class="w-full bg-white border border-[#dcd1c2] p-3 rounded-2xl outline-none focus:border-[#3e2b26]" rows="3"></textarea>
                 <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeCheckout()" id="cancel-btn" class="px-4 py-2 bg-[#f0dfdc] text-burgundy font-semibold rounded-xl">Cancel</button>
-                    <button type="submit" id="place-order-btn" class="px-5 py-2 bg-burgundy-theme text-white font-bold rounded-xl shadow">Place Order</button>
+                    <button type="button" onclick="closeCheckout()" id="cancel-btn" class="px-5 py-2.5 bg-[#e8dfd1] text-dark-coffee font-bold rounded-full">Cancel</button>
+                    <button type="submit" id="place-order-btn" class="px-6 py-2.5 btn-coffee font-bold rounded-full shadow">Place Order</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Logic Script -->
+    <!-- Firebase & Logic Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -224,25 +255,25 @@
         let cart = [];
 
         const categories = [
-            { id: 'mens_fashion', en: "Men's fashion", bn: "ছেলেদের ফ্যাশন" },
-            { id: 'womans_fashion', en: "Woman's fashion", bn: "মেয়েদের ফ্যাশন" },
-            { id: 'smartwatch', en: "Smartwatch", bn: "স্মার্টওয়াচ" },
-            { id: 'gift_combo', en: "Gift combo", bn: "গিফট কম্বো" },
-            { id: 'shoes', en: "Shoes", bn: "জুতা" },
-            { id: 'airpods', en: "Airpods", bn: "এয়ারপডস" },
-            { id: 'power_bank', en: "Power bank", bn: "পাওয়ার ব্যাংক" },
-            { id: 'electricity', en: "Electricity", bn: "ইলেকট্রিসিটি" },
-            { id: 'phone', en: "Phone", bn: "ফোন" },
-            { id: 'skin_care', en: "Skin care", bn: "স্কিন কেয়ার" }
+            { id: 'mens_fashion', en: "Men's fashion", bn: "ছেলেদের ফ্যাশন", img: "https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=200&auto=format&fit=crop" },
+            { id: 'womans_fashion', en: "Woman's fashion", bn: "মেয়েদের ফ্যাশন", img: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=200&auto=format&fit=crop" },
+            { id: 'smartwatch', en: "Smartwatch", bn: "স্মার্টওয়াচ", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&auto=format&fit=crop" },
+            { id: 'gift_combo', en: "Gift combo", bn: "গিফট কম্বো", img: "https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=200&auto=format&fit=crop" },
+            { id: 'shoes', en: "Shoes", bn: "জুতা", img: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=200&auto=format&fit=crop" },
+            { id: 'airpods', en: "Airpods", bn: "এয়ারপডস", img: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=200&auto=format&fit=crop" },
+            { id: 'power_bank', en: "Power bank", bn: "পাওয়ার ব্যাংক", img: "https://images.unsplash.com/photo-1609592807664-44b41ec950a4?w=200&auto=format&fit=crop" },
+            { id: 'electricity', en: "Electricity", bn: "ইলেকট্রিসিটি", img: "https://images.unsplash.com/photo-1509390144018-e37452d29402?w=200&auto=format&fit=crop" },
+            { id: 'phone', en: "Phone", bn: "ফোন", img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&auto=format&fit=crop" },
+            { id: 'skin_care', en: "Skin care", bn: "স্কিন কেয়ার", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&auto=format&fit=crop" }
         ];
 
         const i18n = {
             en: {
-                heroTitle: "Elegance Redefined",
-                heroSubtitle: "Adorn yourself with our timeless collection of premium products and exquisite essentials.",
-                all: "All Items",
+                heroTitle: "THE SIGNATURE <br>OF STYLE!",
+                heroSubtitle: "Elevate Your Style. Premium fashion, modern accessories, smart lifestyle & aesthetic essentials for everyone.",
+                all: "All",
                 viewAll: "View All",
-                orderBtn: "Order",
+                orderBtn: "Order Now",
                 cartTitle: "Shopping Bag",
                 total: "Total:",
                 confirmOrder: "Confirm Order",
@@ -254,12 +285,12 @@
                 placeOrder: "Place Order",
                 backHome: "Back to Home",
                 emptyCart: "Cart is empty!",
-                addedAlert: "Added to cart successfully!",
+                addedAlert: "Added to bag successfully!",
                 orderSuccess: "Thank you! Your order has been placed successfully."
             },
             bn: {
-                heroTitle: "অভিজাত্যের অনন্য প্রকাশ",
-                heroSubtitle: "আমাদের প্রিমিয়াম ও এক্সক্লুসিভ কালেকশন দিয়ে সাজিয়ে নিন আপনার প্রতিদিনের লাইফস্টাইল।",
+                heroTitle: "স্টাইলের অনন্য <br>স্বাক্ষর!",
+                heroSubtitle: "আপনার স্টাইলকে করুন আরও আকর্ষণীয়। ছেলে ও মেয়েদের সেরা পোশাক, আধুনিক গ্যাজেট এবং লাইফস্টাইল কালেকশন।",
                 all: "সব প্রোডাক্ট",
                 viewAll: "সব দেখুন",
                 orderBtn: "অর্ডার করুন",
@@ -274,22 +305,22 @@
                 placeOrder: "অর্ডার প্লেস করুন",
                 backHome: "হোমপেজে ফিরুন",
                 emptyCart: "ব্যাগ খালি!",
-                addedAlert: "পণ্যটি সফলভাবে ব্যাগে যুক্ত হয়েছে!",
+                addedAlert: "পণ্যটি ব্যাগে যোগ করা হয়েছে!",
                 orderSuccess: "ধন্যবাদ! আপনার অর্ডারটি সফলভাবে গ্রহণ করা হয়েছে।"
             }
         };
 
         window.toggleLanguage = function() {
             currentLang = currentLang === 'en' ? 'bn' : 'en';
-            document.getElementById('lang-btn').innerHTML = `<i class="fas fa-globe text-[11px]"></i> <span>${currentLang === 'en' ? 'বাংলা' : 'English'}</span>`;
+            document.getElementById('lang-btn').innerText = currentLang === 'en' ? 'বাংলা' : 'English';
             updateStaticText();
-            renderCategoryBar();
+            renderCategoryRoundBar();
             showHomePage();
         };
 
         function updateStaticText() {
             const t = i18n[currentLang];
-            document.getElementById('hero-title').innerText = t.heroTitle;
+            document.getElementById('hero-title').innerHTML = t.heroTitle;
             document.getElementById('hero-subtitle').innerText = t.heroSubtitle;
             document.getElementById('cart-drawer-title').innerHTML = `<i class="fas fa-shopping-bag"></i> ${t.cartTitle}`;
             document.getElementById('total-txt').innerText = t.total;
@@ -303,12 +334,22 @@
             document.getElementById('back-home-txt').innerText = t.backHome;
         }
 
-        function renderCategoryBar() {
-            const bar = document.getElementById('category-bar');
-            const t = i18n[currentLang];
-            let html = `<button onclick="showHomePage()" class="px-4 py-1.5 rounded-full bg-burgundy-theme text-white text-xs font-semibold whitespace-nowrap shadow-sm">${t.all}</button>`;
+        function renderCategoryRoundBar() {
+            const bar = document.getElementById('round-category-bar');
+            let html = `
+                <div onclick="showHomePage()" class="flex flex-col items-center cursor-pointer group min-w-[70px]">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#3e2b26] text-white flex items-center justify-center font-bold text-xs shadow group-hover:scale-105 transition">ALL</div>
+                    <span class="text-[11px] font-bold mt-2 text-dark-coffee">${i18n[currentLang].all}</span>
+                </div>
+            `;
             categories.forEach(c => {
-                html += `<button onclick="viewFullCategory('${c.id}')" class="px-4 py-1.5 rounded-full bg-white hover:bg-[#fbf2f0] text-gray-700 hover:text-burgundy border border-[#f0e4e2] text-xs font-semibold whitespace-nowrap transition">${currentLang === 'en' ? c.en : c.bn}</button>`;
+                const title = currentLang === 'en' ? c.en : c.bn;
+                html += `
+                    <div onclick="viewFullCategory('${c.id}')" class="flex flex-col items-center cursor-pointer group min-w-[75px]">
+                        <img src="${c.img}" class="w-14 h-14 md:w-16 md:h-16 rounded-full object-cover border-2 border-white shadow group-hover:scale-105 transition">
+                        <span class="text-[11px] font-medium mt-2 text-gray-700 group-hover:text-dark-coffee text-center line-clamp-1">${title}</span>
+                    </div>
+                `;
             });
             bar.innerHTML = html;
         }
@@ -317,31 +358,22 @@
             const snap = await getDocs(collection(db, "products"));
             allProducts = [];
             snap.forEach(d => allProducts.push({ id: d.id, ...d.data() }));
-            renderCategoryBar();
+            renderCategoryRoundBar();
             showHomePage();
         }
 
         function getCardHTML(p) {
             const t = i18n[currentLang];
-            const catObj = categories.find(c => c.id === p.category);
-            const catLabel = catObj ? (currentLang === 'en' ? catObj.en : catObj.bn) : p.category;
-
             return `
-                <div class="bg-white rounded-2xl border border-[#f0e4e2] overflow-hidden card-shadow transition duration-300 flex flex-col justify-between group">
-                    <div class="relative overflow-hidden bg-gray-100">
-                        <span class="absolute top-2.5 left-2.5 bg-burgundy-theme/90 text-white text-[9px] px-2 py-0.5 rounded-md font-bold tracking-wider uppercase z-10">Exclusive</span>
-                        <img src="${p.img}" alt="${p.title}" class="h-44 sm:h-52 w-full object-cover group-hover:scale-105 transition duration-500">
+                <div class="card-aesthetic p-3.5 flex flex-col justify-between group">
+                    <div class="overflow-hidden rounded-xl bg-sand-hero mb-3">
+                        <img src="${p.img}" alt="${p.title}" class="h-44 sm:h-56 w-full object-cover group-hover:scale-105 transition duration-500">
                     </div>
-                    <div class="p-3.5 flex flex-col justify-between flex-1">
-                        <div>
-                            <span class="text-[9px] uppercase font-bold text-[#a88d8b] tracking-wider">${catLabel}</span>
-                            <h4 class="font-bold text-xs sm:text-sm text-gray-800 line-clamp-1 mt-0.5 group-hover:text-burgundy transition">${p.title}</h4>
-                        </div>
-                        <div class="flex items-center justify-between mt-3 pt-2 border-t border-[#f7ecea]">
-                            <span class="font-black text-sm sm:text-base text-burgundy font-serif-luxury">৳${p.price}</span>
-                            <button onclick="addToCart('${p.id}')" class="bg-burgundy-theme hover:opacity-90 text-white text-[11px] font-bold px-3.5 py-1.5 rounded-lg transition">${t.orderBtn}</button>
-                        </div>
+                    <div>
+                        <h4 class="font-bold text-xs sm:text-sm text-gray-800 line-clamp-1 group-hover:text-dark-coffee">${p.title}</h4>
+                        <p class="text-dark-coffee font-black text-sm sm:text-base mt-1">৳${p.price}</p>
                     </div>
+                    <button onclick="addToCart('${p.id}')" class="mt-3 w-full btn-coffee text-xs py-2 rounded-xl font-bold transition">${t.orderBtn}</button>
                 </div>
             `;
         }
@@ -361,16 +393,14 @@
                 const title = currentLang === 'en' ? cat.en : cat.bn;
 
                 home.innerHTML += `
-                    <section class="mt-4">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-base md:text-lg font-bold font-serif-luxury text-gray-900 flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-burgundy-theme inline-block"></span> ${title}
-                            </h3>
-                            <button onclick="viewFullCategory('${cat.id}')" class="text-xs font-bold text-burgundy hover:underline flex items-center gap-1">
-                                ${t.viewAll} (${prods.length}) <i class="fas fa-arrow-right text-[9px]"></i>
+                    <section>
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg md:text-xl font-cinzel font-bold text-dark-coffee border-l-4 border-[#3e2b26] pl-2.5">${title}</h3>
+                            <button onclick="viewFullCategory('${cat.id}')" class="text-xs font-bold text-dark-coffee hover:underline flex items-center gap-1">
+                                ${t.viewAll} (${prods.length}) <i class="fas fa-arrow-right text-[10px]"></i>
                             </button>
                         </div>
-                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 md:gap-5">
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                             ${topFour.map(p => getCardHTML(p)).join('')}
                         </div>
                     </section>
@@ -389,7 +419,7 @@
 
             document.getElementById('cat-view-title').innerText = `${title} (${prods.length})`;
             document.getElementById('cat-view-grid').innerHTML = prods.map(p => getCardHTML(p)).join('');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            scrollToProducts();
         };
 
         window.handleSearch = function(query) {
@@ -404,6 +434,10 @@
             const filtered = allProducts.filter(p => p.title.toLowerCase().includes(query.toLowerCase()));
             document.getElementById('cat-view-title').innerText = `Search: "${query}" (${filtered.length})`;
             document.getElementById('cat-view-grid').innerHTML = filtered.map(p => getCardHTML(p)).join('');
+        };
+
+        window.scrollToProducts = function() {
+            document.getElementById('main-products-sec').scrollIntoView({ behavior: 'smooth' });
         };
 
         window.addToCart = function(id) {
@@ -423,12 +457,12 @@
             cart.forEach((p, idx) => {
                 total += Number(p.price);
                 container.innerHTML += `
-                    <div class="flex justify-between items-center border-b border-[#f0e4e2] pb-2 text-xs">
+                    <div class="flex justify-between items-center border-b border-[#e5dcce] pb-2 text-xs">
                         <div>
                             <p class="font-bold text-gray-800">${p.title}</p>
-                            <p class="text-burgundy font-semibold">৳${p.price}</p>
+                            <p class="text-dark-coffee font-bold">৳${p.price}</p>
                         </div>
-                        <button onclick="removeFromCart(${idx})" class="text-red-500 font-bold p-1 hover:text-red-700">&times;</button>
+                        <button onclick="removeFromCart(${idx})" class="text-red-600 font-bold p-1">&times;</button>
                     </div>
                 `;
             });
