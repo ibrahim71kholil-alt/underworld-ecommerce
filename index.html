@@ -51,7 +51,7 @@
 </head>
 <body class="selection:bg-[#3e2b26] selection:text-white pb-16">
 
-    <!-- Top Notice Bar (Salmon / Terracotta Tone) -->
+    <!-- Top Notice Bar -->
     <div class="bg-[#d98270] text-white text-[11px] py-1.5 text-center font-medium tracking-wide">
         Free Delivery on Orders Above ৳২,০০০ | Cash on Delivery Available
     </div>
@@ -71,8 +71,13 @@
                 <i class="fas fa-search absolute left-3.5 top-3 text-gray-400 text-xs"></i>
             </div>
 
-            <!-- Language & Cart -->
+            <!-- Language, Admin & Cart -->
             <div class="flex items-center gap-2.5">
+                <!-- Secret Admin Trigger Button (Shows only with #admin in URL) -->
+                <button id="secret-admin-btn" onclick="openAdminLogin()" class="hidden bg-[#3e2b26] text-white text-xs font-bold px-3.5 py-1.5 rounded-full transition shadow-xs flex items-center gap-1.5">
+                    <i class="fas fa-lock text-[10px]"></i> Admin
+                </button>
+
                 <button onclick="toggleLanguage()" id="lang-btn" class="bg-[#e8dfd1] hover:bg-[#dcd1c2] text-dark-coffee text-xs font-bold px-3.5 py-1.5 rounded-full transition">
                     বাংলা
                 </button>
@@ -95,7 +100,7 @@
 
     <div class="container mx-auto px-4 pt-4">
         
-        <!-- Hero Section (Nude Sand Background) -->
+        <!-- Hero Section -->
         <section class="bg-sand-hero rounded-3xl p-6 md:p-12 overflow-hidden relative border border-[#ded3c3] flex flex-col-reverse md:flex-row items-center justify-between gap-8">
             <div class="max-w-md z-10 text-center md:text-left">
                 <span class="text-[11px] md:text-xs tracking-[0.25em] font-bold text-[#82716a] uppercase block mb-2">Modern Unisex Fashion</span>
@@ -107,11 +112,11 @@
                 </p>
                 <div class="flex items-center justify-center md:justify-start gap-3">
                     <button onclick="scrollToProducts()" class="btn-coffee text-xs font-bold px-6 py-3 rounded-full uppercase tracking-wider transition">Shop Now</button>
-                    <a href="admin.html" class="bg-[#dcd1c2] hover:bg-[#cfc2b1] text-dark-coffee text-xs font-bold px-5 py-3 rounded-full uppercase tracking-wider transition">Admin</a>
+                    <button onclick="openAdminLogin()" class="bg-[#dcd1c2] hover:bg-[#cfc2b1] text-dark-coffee text-xs font-bold px-5 py-3 rounded-full uppercase tracking-wider transition">Admin</button>
                 </div>
             </div>
 
-            <!-- Unisex Model Image (Men & Women) -->
+            <!-- Unisex Model Image -->
             <div class="w-full md:w-1/2 flex justify-center">
                 <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop" alt="Fashion Models" class="rounded-2xl max-h-[380px] w-full object-cover shadow-sm">
             </div>
@@ -189,9 +194,9 @@
         <div class="container mx-auto px-4 space-y-2">
             <p>&copy; 2026 <span class="font-bold text-dark-coffee font-cinzel">UNDERWORLD</span>. All Rights Reserved.</p>
             <p>
-                <a href="admin.html" target="_blank" class="text-dark-coffee hover:underline font-semibold inline-flex items-center gap-1">
+                <button onclick="openAdminLogin()" class="text-dark-coffee hover:underline font-semibold inline-flex items-center gap-1">
                     <i class="fas fa-lock text-[10px]"></i> Admin Dashboard
-                </a>
+                </button>
             </p>
         </div>
     </footer>
@@ -232,19 +237,82 @@
         </div>
     </div>
 
+    <!-- Admin Modal -->
+    <div id="admin-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+        <div class="bg-white p-6 rounded-3xl w-full max-w-lg border border-[#e5dcce] shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeAdmin()" class="absolute top-4 right-4 text-gray-400 hover:text-black font-bold text-lg"><i class="fas fa-times"></i></button>
+            
+            <!-- Login View -->
+            <div id="admin-login-box">
+                <h3 class="text-xl font-bold font-cinzel text-dark-coffee mb-4 text-center">Admin Login</h3>
+                <form onsubmit="verifyAdmin(event)" class="space-y-3">
+                    <input type="password" id="admin-pass-input" placeholder="Enter Password (admin123)" required class="w-full bg-[#fdfbf9] border border-[#dcd1c2] p-3 rounded-2xl text-sm outline-none focus:border-[#3e2b26]">
+                    <button type="submit" class="w-full btn-coffee font-bold py-3 rounded-2xl text-sm shadow">Login</button>
+                </form>
+            </div>
+
+            <!-- Dashboard View -->
+            <div id="admin-dashboard-box" class="hidden space-y-6">
+                <div class="flex justify-between items-center border-b pb-3">
+                    <h3 class="text-lg font-bold font-cinzel text-dark-coffee">Admin Dashboard</h3>
+                    <button onclick="logoutAdmin()" class="text-xs text-red-500 font-bold hover:underline">Logout</button>
+                </div>
+
+                <!-- Add Product Form -->
+                <form onsubmit="addNewProduct(event)" class="space-y-3 text-xs bg-[#fdfbf9] p-4 rounded-2xl border border-[#e5dcce]">
+                    <h4 class="font-bold text-dark-coffee text-sm mb-2"><i class="fas fa-plus-circle"></i> Add New Product</h4>
+                    <div>
+                        <label class="block font-semibold mb-1">Product Title</label>
+                        <input type="text" id="p-title" required class="w-full border border-[#dcd1c2] p-2.5 rounded-xl bg-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-semibold mb-1">Price (৳)</label>
+                        <input type="number" id="p-price" required class="w-full border border-[#dcd1c2] p-2.5 rounded-xl bg-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-semibold mb-1">Direct Image URL</label>
+                        <input type="text" id="p-img" placeholder="https://..." required class="w-full border border-[#dcd1c2] p-2.5 rounded-xl bg-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-semibold mb-1">Category</label>
+                        <select id="p-cat" class="w-full border border-[#dcd1c2] p-2.5 rounded-xl bg-white outline-none">
+                            <option value="mens_fashion">Men's fashion</option>
+                            <option value="womans_fashion">Woman's fashion</option>
+                            <option value="smartwatch">Smartwatch</option>
+                            <option value="gift_combo">Gift combo</option>
+                            <option value="shoes">Shoes</option>
+                            <option value="airpods">Airpods</option>
+                            <option value="power_bank">Power bank</option>
+                            <option value="electricity">Electricity</option>
+                            <option value="phone">Phone</option>
+                            <option value="skin_care">Skin care</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full btn-coffee font-bold py-2.5 rounded-xl shadow">Save Product</button>
+                </form>
+
+                <!-- Product List -->
+                <div>
+                    <h4 class="font-bold text-dark-coffee mb-2 text-xs">Manage Existing Products</h4>
+                    <div id="admin-product-list" class="space-y-2 max-h-44 overflow-y-auto pr-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase & Logic Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // 🔥 আপনার Firebase Keys এখানে বসান
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyCqvllCwLU_c_jcMm7kGtFcfjacqfbv8XE",
+            authDomain: "hisab-ghor-ab9df.firebaseapp.com",
+            projectId: "hisab-ghor-ab9df",
+            storageBucket: "hisab-ghor-ab9df.firebasestorage.app",
+            messagingSenderId: "704142339855",
+            appId: "1:704142339855:web:331d04ae8da79172a2d87a",
+            measurementId: "G-NRV7MVKJHT"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -307,6 +375,85 @@
                 emptyCart: "ব্যাগ খালি!",
                 addedAlert: "পণ্যটি ব্যাগে যোগ করা হয়েছে!",
                 orderSuccess: "ধন্যবাদ! আপনার অর্ডারটি সফলভাবে গ্রহণ করা হয়েছে।"
+            }
+        };
+
+        if(window.location.hash === "#admin") {
+            const adminBtn = document.getElementById('secret-admin-btn');
+            if(adminBtn) adminBtn.classList.remove('hidden');
+        }
+
+        window.openAdminLogin = () => {
+            const modal = document.getElementById('admin-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        };
+
+        window.closeAdmin = () => {
+            const modal = document.getElementById('admin-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+
+        window.verifyAdmin = (e) => {
+            e.preventDefault();
+            if(document.getElementById('admin-pass-input').value === "admin123") {
+                document.getElementById('admin-login-box').classList.add('hidden');
+                document.getElementById('admin-dashboard-box').classList.remove('hidden');
+                loadAdminProducts();
+            } else {
+                alert('Wrong Password!');
+            }
+        };
+
+        window.logoutAdmin = () => {
+            document.getElementById('admin-login-box').classList.remove('hidden');
+            document.getElementById('admin-dashboard-box').classList.add('hidden');
+            document.getElementById('admin-pass-input').value = '';
+        };
+
+        window.addNewProduct = async (e) => {
+            e.preventDefault();
+            const product = {
+                title: document.getElementById('p-title').value,
+                price: document.getElementById('p-price').value,
+                img: document.getElementById('p-img').value,
+                category: document.getElementById('p-cat').value
+            };
+            await addDoc(collection(db, "products"), product);
+            alert('Product Added Successfully!');
+            e.target.reset();
+            loadAdminProducts();
+            loadProducts();
+        };
+
+        async function loadAdminProducts() {
+            const list = document.getElementById('admin-product-list');
+            list.innerHTML = '<p class="text-gray-400 text-xs">Loading...</p>';
+            const snap = await getDocs(collection(db, "products"));
+            list.innerHTML = '';
+            snap.forEach(d => {
+                const p = d.data();
+                list.innerHTML += `
+                    <div class="flex justify-between items-center bg-white border border-[#e5dcce] p-2 rounded-xl text-xs">
+                        <div class="flex items-center gap-2 truncate">
+                            <img src="${p.img}" class="w-8 h-8 object-cover rounded-lg bg-gray-100">
+                            <span class="truncate font-semibold">${p.title}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-dark-coffee font-bold">৳${p.price}</span>
+                            <button onclick="deleteProd('${d.id}')" class="text-red-500 hover:text-red-700 font-bold px-2"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        window.deleteProd = async (id) => {
+            if(confirm('Are you sure to delete this product?')) {
+                await deleteDoc(doc(db, "products", id));
+                loadAdminProducts();
+                loadProducts();
             }
         };
 
