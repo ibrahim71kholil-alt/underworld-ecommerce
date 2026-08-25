@@ -3,62 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Underworld - Luxury Admin Panel</title>
+    <title>Underworld - Aesthetic Admin Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #faf6f5;
+            background-color: #f7f3ec;
         }
-        .bg-burgundy-theme { background-color: #722f37; }
-        .text-burgundy { color: #722f37; }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .text-dark-coffee { color: #3e2b26; }
+        .btn-coffee { background-color: #3e2b26; color: #fff; }
+        .btn-coffee:hover { background-color: #241714; }
     </style>
 </head>
 <body class="text-gray-800">
 
-    <!-- Login Box -->
     <div id="login-section" class="min-h-screen flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-[#f0e4e2]">
-            <div class="flex items-center justify-center gap-3 mb-6">
-                <div class="w-10 h-10 bg-burgundy-theme text-white rounded-xl flex items-center justify-center"><i class="fas fa-lock"></i></div>
-                <h2 class="text-2xl font-bold font-serif text-burgundy">ADMIN ACCESS</h2>
+        <div class="bg-white p-8 rounded-3xl shadow-xl w-full max-w-md border border-[#e5dcce]">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold font-cinzel text-dark-coffee uppercase tracking-widest">Underworld</h2>
+                <p class="text-xs text-gray-500 mt-1">Admin Dashboard Login</p>
             </div>
             <form onsubmit="handleLogin(event)" class="space-y-4">
-                <input type="password" id="admin-pass" placeholder="Enter Admin Password" required class="w-full bg-[#fbf8f7] border border-[#e8d8d6] p-3 rounded-xl text-sm outline-none focus:border-[#722f37]">
-                <button type="submit" class="w-full bg-burgundy-theme text-white font-bold py-3 rounded-xl text-sm shadow hover:opacity-95 transition">Login to Panel</button>
+                <input type="password" id="admin-pass" placeholder="Enter Admin Password" required class="w-full bg-[#fdfbf9] border border-[#dcd1c2] p-3 rounded-2xl text-sm outline-none focus:border-[#3e2b26]">
+                <button type="submit" class="w-full btn-coffee font-bold py-3.5 rounded-2xl text-sm shadow hover:opacity-95 transition">Login to Panel</button>
             </form>
         </div>
     </div>
 
-    <!-- Dashboard -->
     <div id="dashboard-section" class="hidden min-h-screen">
-        <header class="bg-white border-b border-[#f0e4e2] py-4 px-6 flex justify-between items-center shadow-xs">
-            <h1 class="text-xl font-bold font-serif text-burgundy flex items-center gap-2"><i class="fas fa-shield-alt"></i> Underworld Admin</h1>
-            <button onclick="logout()" class="text-xs bg-[#f0dfdc] text-burgundy hover:bg-burgundy-theme hover:text-white px-4 py-2 rounded-lg font-bold transition">Logout</button>
+        <header class="bg-[#e8dfd1] border-b border-[#ded3c3] py-4 px-6 flex justify-between items-center shadow-xs">
+            <h1 class="text-xl font-bold font-cinzel text-dark-coffee tracking-wider flex items-center gap-2">
+                <i class="fas fa-shield-alt"></i> Underworld Admin
+            </h1>
+            <button onclick="logout()" class="text-xs bg-[#dcd1c2] text-dark-coffee hover:bg-black hover:text-white px-4 py-2 rounded-full font-bold transition">Logout</button>
         </header>
 
         <div class="container mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Add Product -->
-            <div class="bg-white p-5 rounded-2xl border border-[#f0e4e2] shadow-sm">
-                <h3 class="text-base font-bold mb-4 border-b border-[#f0e4e2] pb-2 text-burgundy"><i class="fas fa-plus-circle"></i> Add New Product</h3>
+            <!-- Add Product Form -->
+            <div class="bg-white p-5 rounded-3xl border border-[#e5dcce] shadow-sm">
+                <h3 class="text-base font-bold font-cinzel mb-4 border-b border-[#e5dcce] pb-2 text-dark-coffee">
+                    <i class="fas fa-plus-circle"></i> Add New Product
+                </h3>
                 <form onsubmit="addProduct(event)" class="space-y-3 text-xs">
                     <div>
                         <label class="block font-semibold mb-1">Product Title</label>
-                        <input type="text" id="p-title" required class="w-full bg-[#fbf8f7] border border-[#e8d8d6] p-2.5 rounded-xl outline-none focus:border-[#722f37]">
+                        <input type="text" id="p-title" required class="w-full bg-[#fdfbf9] border border-[#dcd1c2] p-2.5 rounded-xl outline-none focus:border-[#3e2b26]">
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Price (৳)</label>
-                        <input type="number" id="p-price" required class="w-full bg-[#fbf8f7] border border-[#e8d8d6] p-2.5 rounded-xl outline-none focus:border-[#722f37]">
+                        <input type="number" id="p-price" required class="w-full bg-[#fdfbf9] border border-[#dcd1c2] p-2.5 rounded-xl outline-none focus:border-[#3e2b26]">
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Direct Image URL</label>
-                        <input type="text" id="p-img" required class="w-full bg-[#fbf8f7] border border-[#e8d8d6] p-2.5 rounded-xl outline-none focus:border-[#722f37]" placeholder="https://...">
+                        <input type="text" id="p-img" required class="w-full bg-[#fdfbf9] border border-[#dcd1c2] p-2.5 rounded-xl outline-none focus:border-[#3e2b26]" placeholder="https://...">
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Category</label>
-                        <select id="p-cat" class="w-full bg-[#fbf8f7] border border-[#e8d8d6] p-2.5 rounded-xl outline-none focus:border-[#722f37]">
+                        <select id="p-cat" class="w-full bg-[#fdfbf9] border border-[#dcd1c2] p-2.5 rounded-xl outline-none focus:border-[#3e2b26]">
                             <option value="mens_fashion">Men's fashion</option>
                             <option value="womans_fashion">Woman's fashion</option>
                             <option value="smartwatch">Smartwatch</option>
@@ -71,19 +75,23 @@
                             <option value="skin_care">Skin care</option>
                         </select>
                     </div>
-                    <button type="submit" class="w-full bg-burgundy-theme text-white font-bold py-3 rounded-xl shadow hover:opacity-95 transition">Save Product</button>
+                    <button type="submit" class="w-full btn-coffee font-bold py-3 rounded-xl shadow transition">Save Product</button>
                 </form>
             </div>
 
-            <!-- Orders -->
-            <div class="bg-white p-5 rounded-2xl border border-[#f0e4e2] shadow-sm">
-                <h3 class="text-base font-bold mb-4 border-b border-[#f0e4e2] pb-2 text-burgundy"><i class="fas fa-shopping-bag"></i> Customer Orders</h3>
+            <!-- Customer Orders -->
+            <div class="bg-white p-5 rounded-3xl border border-[#e5dcce] shadow-sm">
+                <h3 class="text-base font-bold font-cinzel mb-4 border-b border-[#e5dcce] pb-2 text-dark-coffee">
+                    <i class="fas fa-shopping-bag"></i> Customer Orders
+                </h3>
                 <div id="orders-list" class="space-y-3 max-h-[70vh] overflow-y-auto pr-1"></div>
             </div>
 
             <!-- Live Products -->
-            <div class="bg-white p-5 rounded-2xl border border-[#f0e4e2] shadow-sm">
-                <h3 class="text-base font-bold mb-4 border-b border-[#f0e4e2] pb-2 text-burgundy"><i class="fas fa-boxes"></i> Live Products</h3>
+            <div class="bg-white p-5 rounded-3xl border border-[#e5dcce] shadow-sm">
+                <h3 class="text-base font-bold font-cinzel mb-4 border-b border-[#e5dcce] pb-2 text-dark-coffee">
+                    <i class="fas fa-boxes"></i> Live Products
+                </h3>
                 <div id="products-list" class="space-y-3 max-h-[70vh] overflow-y-auto pr-1"></div>
             </div>
         </div>
@@ -144,11 +152,11 @@
             orderSnap.forEach(d => {
                 const o = d.data();
                 orderBox.innerHTML += `
-                    <div class="border border-[#f0e4e2] p-3 rounded-xl text-xs space-y-1 bg-[#fbf8f7]">
-                        <p class="font-bold text-gray-900">${o.name} - <span class="text-burgundy">${o.phone}</span></p>
+                    <div class="border border-[#e5dcce] p-3 rounded-2xl text-xs space-y-1 bg-[#fdfbf9]">
+                        <p class="font-bold text-gray-900">${o.name} - <span class="text-[#d98270]">${o.phone}</span></p>
                         <p class="text-gray-500">${o.address}</p>
                         <p class="text-gray-700"><strong>Items:</strong> ${o.items.map(i => i.title).join(', ')}</p>
-                        <p class="text-burgundy font-bold">Total: ৳${o.total}</p>
+                        <p class="text-dark-coffee font-black">Total: ৳${o.total}</p>
                         <p class="text-[10px] text-gray-400">${o.date}</p>
                     </div>
                 `;
@@ -162,12 +170,12 @@
             prodSnap.forEach(d => {
                 const p = d.data();
                 prodBox.innerHTML += `
-                    <div class="flex items-center justify-between border border-[#f0e4e2] p-2.5 rounded-xl bg-[#fbf8f7] text-xs">
+                    <div class="flex items-center justify-between border border-[#e5dcce] p-2.5 rounded-2xl bg-[#fdfbf9] text-xs">
                         <div class="flex items-center gap-2.5">
-                            <img src="${p.img}" class="w-10 h-10 object-cover rounded-lg bg-gray-100">
+                            <img src="${p.img}" class="w-10 h-10 object-cover rounded-xl bg-gray-100">
                             <div>
                                 <p class="font-bold text-gray-800 line-clamp-1">${p.title}</p>
-                                <p class="text-burgundy font-semibold">৳${p.price} | <span class="text-gray-400">${p.category}</span></p>
+                                <p class="text-dark-coffee font-semibold">৳${p.price} | <span class="text-gray-400">${p.category}</span></p>
                             </div>
                         </div>
                         <button onclick="deleteProduct('${d.id}')" class="text-red-500 hover:text-red-700 p-2"><i class="fas fa-trash"></i></button>
