@@ -1,193 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Underworld - Aesthetic Admin Panel</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f7f3ec;
-        }
-        .font-cinzel { font-family: 'Cinzel', serif; }
-        .text-dark-coffee { color: #3e2b26; }
-        .btn-coffee { background-color: #3e2b26; color: #fff; }
-        .btn-coffee:hover { background-color: #241714; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Underworld - Admin Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #0b0c10; color: #c5c6c7; padding: 20px; }
+    .container { max-width: 700px; margin: 0 auto; }
+    h2, h3 { color: #66fcf1; margin-bottom: 15px; }
+    .card { background: #1f2833; border: 1px solid #45a29e; padding: 25px; border-radius: 8px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+    input, select, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 6px; border: 1px solid #45a29e; background: #0b0c10; color: #fff; font-size: 15px; }
+    input:focus, select:focus { outline: 2px solid #66fcf1; }
+    button { background: #66fcf1; color: #0b0c10; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; }
+    button:hover { background: #45a29e; color: #fff; }
+    .logout-btn { background: #e63946; color: #fff; margin-bottom: 20px; width: auto; padding: 8px 18px; float: right; }
+    .logout-btn:hover { background: #c0392b; }
+    .product-row { display: flex; justify-content: space-between; align-items: center; background: #141b22; padding: 12px; margin-bottom: 10px; border-radius: 6px; border-left: 4px solid #66fcf1; }
+    .del-btn { width: auto; background: #e63946; color: #fff; padding: 6px 14px; margin: 0; font-size: 13px; }
+    .del-btn:hover { background: #c0392b; }
+    #loginSection, #dashboardSection { display: none; }
+  </style>
 </head>
-<body class="text-gray-800">
+<body>
 
-    <div id="login-section" class="min-h-screen flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-3xl shadow-xl w-full max-w-md border border-[#e5dcce]">
-            <div class="text-center mb-6">
-                <h2 class="text-2xl font-bold font-cinzel text-dark-coffee uppercase tracking-widest">Underworld</h2>
-                <p class="text-xs text-gray-500 mt-1">Admin Dashboard Login</p>
-            </div>
-            <form onsubmit="handleLogin(event)" class="space-y-4">
-                <input type="password" id="admin-pass" placeholder="Enter Admin Password" required class="w-full bg-[#fdfbf9] border border-[#dcd1c2] p-3 rounded-2xl text-sm outline-none focus:border-[#3e2b26]">
-                <button type="submit" class="w-full btn-coffee font-bold py-3.5 rounded-2xl text-sm shadow hover:opacity-95 transition">Login to Panel</button>
-            </form>
-        </div>
+  <div class="container">
+    <!-- Login Screen -->
+    <div id="loginSection" class="card">
+      <h2>Underworld Admin Login</h2>
+      <input type="email" id="loginEmail" placeholder="অ্যাডমিন ইমেইল" required>
+      <input type="password" id="loginPassword" placeholder="পাসওয়ার্ড" required>
+      <button id="loginBtn">লগইন করুন</button>
     </div>
 
-    <div id="dashboard-section" class="hidden min-h-screen">
-        <header class="bg-[#e8dfd1] border-b border-[#ded3c3] py-4 px-6 flex justify-between items-center shadow-xs">
-            <h1 class="text-xl font-bold font-cinzel text-dark-coffee tracking-wider flex items-center gap-2">
-                <i class="fas fa-shield-alt"></i> Underworld Admin
-            </h1>
-            <button onclick="logout()" class="text-xs bg-[#dcd1c2] text-dark-coffee hover:bg-black hover:text-white px-4 py-2 rounded-full font-bold transition">Logout</button>
-        </header>
+    <!-- Dashboard Screen -->
+    <div id="dashboardSection">
+      <button class="logout-btn" id="logoutBtn">লগআউট</button>
+      <div style="clear: both;"></div>
 
-        <div class="container mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Add Product Form -->
-            <div class="bg-white p-5 rounded-3xl border border-[#e5dcce] shadow-sm">
-                <h3 class="text-base font-bold font-cinzel mb-4 border-b border-[#e5dcce] pb-2 text-dark-coffee">
-                    <i class="fas fa-plus-circle"></i> Add New Product
-                </h3>
-                <form onsubmit="addProduct(event)" class="space-y-3 text-xs">
-                    <div>
-                        <label class="block font-semibold mb-1">Product Title</label>
-                        <input type="text" id="p-title" required class="w-full bg-[#fdfbf9] border border-[#dcd1c2] p-2.5 rounded-xl outline-none focus:border-[#3e2b26]">
-                    </div>
-                    <div>
-                        <label class="block font-semibold mb-1">Price (৳)</label>
-                        <input type="number" id="p-price" required class="w-full bg-[#fdfbf9] border border-[#dcd1c2] p-2.5 rounded-xl outline-none focus:border-[#3e2b26]">
-                    </div>
-                    <div>
-                        <label class="block font-semibold mb-1">Direct Image URL</label>
-                        <input type="text" id="p-img" required class="w-full bg-[#fdfbf9] border border-[#dcd1c2] p-2.5 rounded-xl outline-none focus:border-[#3e2b26]" placeholder="https://...">
-                    </div>
-                    <div>
-                        <label class="block font-semibold mb-1">Category</label>
-                        <select id="p-cat" class="w-full bg-[#fdfbf9] border border-[#dcd1c2] p-2.5 rounded-xl outline-none focus:border-[#3e2b26]">
-                            <option value="mens_fashion">Men's fashion</option>
-                            <option value="womans_fashion">Woman's fashion</option>
-                            <option value="smartwatch">Smartwatch</option>
-                            <option value="gift_combo">Gift combo</option>
-                            <option value="shoes">Shoes</option>
-                            <option value="airpods">Airpods</option>
-                            <option value="power_bank">Power bank</option>
-                            <option value="electricity">Electricity</option>
-                            <option value="phone">Phone</option>
-                            <option value="skin_care">Skin care</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="w-full btn-coffee font-bold py-3 rounded-xl shadow transition">Save Product</button>
-                </form>
-            </div>
+      <div class="card">
+        <h3>➕ নতুন প্রোডাক্ট যোগ করুন</h3>
+        <form id="addProductForm">
+          <input type="text" id="pName" placeholder="প্রোডাক্টের নাম" required>
+          <input type="number" id="pPrice" placeholder="দাম (৳)" required>
+          <select id="pCategory" required>
+            <option value="men">👕 Men's Fashion</option>
+            <option value="women">👗 Women's Fashion</option>
+            <option value="sports">⚽ Sports</option>
+          </select>
+          <input type="url" id="pImage" placeholder="ছবির ডিরেক্ট URL (ImgBB/অনলাইন লিংক)" required>
+          <button type="submit">প্রোডাক্ট পাবলিশ করুন</button>
+        </form>
+      </div>
 
-            <!-- Customer Orders -->
-            <div class="bg-white p-5 rounded-3xl border border-[#e5dcce] shadow-sm">
-                <h3 class="text-base font-bold font-cinzel mb-4 border-b border-[#e5dcce] pb-2 text-dark-coffee">
-                    <i class="fas fa-shopping-bag"></i> Customer Orders
-                </h3>
-                <div id="orders-list" class="space-y-3 max-h-[70vh] overflow-y-auto pr-1"></div>
-            </div>
-
-            <!-- Live Products -->
-            <div class="bg-white p-5 rounded-3xl border border-[#e5dcce] shadow-sm">
-                <h3 class="text-base font-bold font-cinzel mb-4 border-b border-[#e5dcce] pb-2 text-dark-coffee">
-                    <i class="fas fa-boxes"></i> Live Products
-                </h3>
-                <div id="products-list" class="space-y-3 max-h-[70vh] overflow-y-auto pr-1"></div>
-            </div>
-        </div>
+      <div class="card">
+        <h3>📦 বর্তমান প্রোডাক্ট তালিকা</h3>
+        <div id="productList">ডেটা লোড হচ্ছে...</div>
+      </div>
     </div>
+  </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCqvllCwLU_c_jcMm7kGtFcfjacqfbv8XE",
-            authDomain: "hisab-ghor-ab9df.firebaseapp.com",
-            projectId: "hisab-ghor-ab9df",
-            storageBucket: "hisab-ghor-ab9df.firebasestorage.app",
-            messagingSenderId: "704142339855",
-            appId: "1:704142339855:web:331d04ae8da79172a2d87a",
-            measurementId: "G-NRV7MVKJHT"
-        };
+    const firebaseConfig = {
+      apiKey: "AIzaSyBgcJFRNOfOdg4ntCjb6LwA8J-fvxPfrPM",
+      authDomain: "underworld-f7aae.firebaseapp.com",
+      projectId: "underworld-f7aae",
+      storageBucket: "underworld-f7aae.firebasestorage.app",
+      messagingSenderId: "1054711880818",
+      appId: "1:1054711880818:web:4ce58efcb3dbd3374ab6eb"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-        const ADMIN_PASS = "admin123";
+    // Auth State
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("dashboardSection").style.display = "block";
+        loadProducts();
+      } else {
+        document.getElementById("loginSection").style.display = "block";
+        document.getElementById("dashboardSection").style.display = "none";
+      }
+    });
 
-        window.handleLogin = function(e) {
-            e.preventDefault();
-            if(document.getElementById('admin-pass').value === ADMIN_PASS) {
-                document.getElementById('login-section').classList.add('hidden');
-                document.getElementById('dashboard-section').classList.remove('hidden');
-                loadAllData();
-            } else {
-                alert('Invalid Admin Password!');
-            }
-        };
+    // Login
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      const email = document.getElementById("loginEmail").value;
+      const pass = document.getElementById("loginPassword").value;
+      signInWithEmailAndPassword(auth, email, pass)
+        .catch(err => alert("ভুল ইমেইল বা পাসওয়ার্ড: " + err.message));
+    });
 
-        window.logout = () => location.reload();
+    // Logout
+    document.getElementById("logoutBtn").addEventListener("click", () => signOut(auth));
 
-        window.addProduct = async function(e) {
-            e.preventDefault();
-            const product = {
-                title: document.getElementById('p-title').value,
-                price: document.getElementById('p-price').value,
-                img: document.getElementById('p-img').value,
-                category: document.getElementById('p-cat').value
-            };
-            await addDoc(collection(db, "products"), product);
-            alert('Product added successfully!');
-            e.target.reset();
-            loadAllData();
-        };
+    // Add Product
+    document.getElementById("addProductForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        await addDoc(collection(db, "products"), {
+          name: document.getElementById("pName").value,
+          price: Number(document.getElementById("pPrice").value),
+          category: document.getElementById("pCategory").value,
+          imageUrl: document.getElementById("pImage").value,
+          createdAt: serverTimestamp()
+        });
+        alert("প্রোডাক্ট সফলভাবে যোগ হয়েছে!");
+        document.getElementById("addProductForm").reset();
+        loadProducts();
+      } catch (err) {
+        alert("সমস্যা হয়েছে: " + err.message);
+      }
+    });
 
-        async function loadAllData() {
-            const orderBox = document.getElementById('orders-list');
-            orderBox.innerHTML = '<p class="text-xs text-gray-500">Loading orders...</p>';
-            const orderSnap = await getDocs(collection(db, "orders"));
-            orderBox.innerHTML = '';
-            orderSnap.forEach(d => {
-                const o = d.data();
-                orderBox.innerHTML += `
-                    <div class="border border-[#e5dcce] p-3 rounded-2xl text-xs space-y-1 bg-[#fdfbf9]">
-                        <p class="font-bold text-gray-900">${o.name} - <span class="text-[#d98270]">${o.phone}</span></p>
-                        <p class="text-gray-500">${o.address}</p>
-                        <p class="text-gray-700"><strong>Items:</strong> ${o.items.map(i => i.title).join(', ')}</p>
-                        <p class="text-dark-coffee font-black">Total: ৳${o.total}</p>
-                        <p class="text-[10px] text-gray-400">${o.date}</p>
-                    </div>
-                `;
-            });
-
-            const prodBox = document.getElementById('products-list');
-            prodBox.innerHTML = '<p class="text-xs text-gray-500">Loading products...</p>';
-            const prodSnap = await getDocs(collection(db, "products"));
-            prodBox.innerHTML = '';
-            prodSnap.forEach(d => {
-                const p = d.data();
-                prodBox.innerHTML += `
-                    <div class="flex items-center justify-between border border-[#e5dcce] p-2.5 rounded-2xl bg-[#fdfbf9] text-xs">
-                        <div class="flex items-center gap-2.5">
-                            <img src="${p.img}" class="w-10 h-10 object-cover rounded-xl bg-gray-100">
-                            <div>
-                                <p class="font-bold text-gray-800 line-clamp-1">${p.title}</p>
-                                <p class="text-dark-coffee font-semibold">৳${p.price} | <span class="text-gray-400">${p.category}</span></p>
-                            </div>
-                        </div>
-                        <button onclick="deleteProduct('${d.id}')" class="text-red-500 hover:text-red-700 p-2"><i class="fas fa-trash"></i></button>
-                    </div>
-                `;
-            });
+    // Load & Delete Products
+    async function loadProducts() {
+      const list = document.getElementById("productList");
+      list.innerHTML = "লোড হচ্ছে...";
+      try {
+        const querySnapshot = await getDocs(collection(db, "products"));
+        list.innerHTML = "";
+        if (querySnapshot.empty) {
+          list.innerHTML = "<p>কোনো প্রোডাক্ট নেই।</p>";
+          return;
         }
+        querySnapshot.forEach((d) => {
+          const item = d.data();
+          const row = document.createElement("div");
+          row.className = "product-row";
+          row.innerHTML = `
+            <div>
+              <strong>${item.name}</strong> - ৳${item.price} <br>
+              <small style="color: #66fcf1;">ক্যাটাগরি: ${item.category}</small>
+            </div>
+            <button class="del-btn" onclick="removeProduct('${d.id}')">Delete</button>
+          `;
+          list.appendChild(row);
+        });
+      } catch (err) {
+        list.innerHTML = "ইরর: " + err.message;
+      }
+    }
 
-        window.deleteProduct = async function(id) {
-            if(confirm('Delete this product?')) {
-                await deleteDoc(doc(db, "products", id));
-                loadAllData();
-            }
-        };
-    </script>
+    window.removeProduct = async (id) => {
+      if (confirm("আপনি কি নিশ্চিত এটি ডিলিট করতে চান?")) {
+        await deleteDoc(doc(db, "products", id));
+        loadProducts();
+      }
+    };
+  </script>
 </body>
 </html>
