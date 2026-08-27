@@ -1,659 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UNDERWORLD - The Signature of Style</title>
-    <!-- Tailwind CSS & FontAwesome -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f7f3ec;
-            color: #2e2320;
-        }
-        .font-cinzel {
-            font-family: 'Cinzel', serif;
-        }
-        .bg-sand-hero {
-            background-color: #e8dfd1;
-        }
-        .text-dark-coffee {
-            color: #3e2b26;
-        }
-        .btn-coffee {
-            background-color: #3e2b26;
-            color: #ffffff;
-        }
-        .btn-coffee:hover {
-            background-color: #241714;
-        }
-        .scrollbar-none::-webkit-scrollbar {
-            display: none;
-        }
-        .card-aesthetic {
-            background-color: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 4px 18px rgba(62, 43, 38, 0.05);
-            transition: all 0.3s ease;
-        }
-        .card-aesthetic:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(62, 43, 38, 0.12);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Underworld | Official Store</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #0b0c10; color: #fff; }
+    header { background: #1f2833; padding: 20px; text-align: center; border-bottom: 2px solid #e63946; }
+    header h1 { font-size: 28px; letter-spacing: 3px; color: #fff; text-transform: uppercase; }
+    header span { color: #e63946; }
+    .filter-section { display: flex; justify-content: center; gap: 10px; margin: 25px 15px; flex-wrap: wrap; }
+    .filter-btn { background: #1f2833; border: 1px solid #45a29e; color: #c5c6c7; padding: 10px 18px; border-radius: 25px; cursor: pointer; font-size: 14px; transition: 0.3s; }
+    .filter-btn.active, .filter-btn:hover { background: #e63946; color: #fff; border-color: #e63946; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 15px 50px; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+    .card { background: #141b22; border-radius: 8px; overflow: hidden; border: 1px solid #222; transition: 0.3s; display: flex; flex-direction: column; }
+    .card:hover { transform: translateY(-5px); border-color: #e63946; }
+    .card img { width: 100%; height: 250px; object-fit: cover; background: #222; }
+    .card-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .card h3 { font-size: 16px; margin-bottom: 8px; color: #fff; }
+    .card .price { color: #66fcf1; font-size: 18px; font-weight: bold; margin-bottom: 12px; }
+    .buy-btn { width: 100%; padding: 10px; background: #e63946; border: none; color: #fff; font-weight: bold; border-radius: 5px; cursor: pointer; transition: 0.2s; }
+    .buy-btn:hover { background: #c0392b; }
+    .loading { text-align: center; color: #66fcf1; font-size: 18px; grid-column: 1 / -1; }
+  </style>
 </head>
-<body class="selection:bg-[#3e2b26] selection:text-white pb-16">
+<body>
 
-    <!-- Top Notice Bar -->
-    <div class="bg-[#d98270] text-white text-[11px] py-1.5 text-center font-medium tracking-wide">
-        Free Delivery on Orders Above ৳২,০০০ | Cash on Delivery Available
+  <header>
+    <h1>Under<span>world</span></h1>
+  </header>
+
+  <div class="filter-section">
+    <button class="filter-btn active" onclick="filterItems('all', this)">🔥 All Items</button>
+    <button class="filter-btn" onclick="filterItems('men', this)">👕 Men's Fashion</button>
+    <button class="filter-btn" onclick="filterItems('women', this)">👗 Women's Fashion</button>
+    <button class="filter-btn" onclick="filterItems('sports', this)">⚽ Sports</button>
+  </div>
+
+  <div class="container">
+    <div id="productGrid" class="product-grid">
+      <div class="loading">প্রোডাক্ট লোড হচ্ছে...</div>
     </div>
+  </div>
 
-    <!-- Header / Navbar -->
-    <header class="bg-[#f7f3ec]/95 backdrop-blur-md sticky top-0 z-50 border-b border-[#e5dcce]">
-        <div class="container mx-auto px-4 py-3.5 flex justify-between items-center gap-4">
-            
-            <!-- Brand Name & Logo (Triple Tap Secret Trigger) -->
-            <div id="brand-logo" onclick="handleSecretClick()" class="cursor-pointer select-none">
-                <span class="text-xl md:text-2xl font-bold tracking-[0.2em] font-cinzel text-dark-coffee uppercase">Underworld</span>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBgcJFRNOfOdg4ntCjb6LwA8J-fvxPfrPM",
+      authDomain: "underworld-f7aae.firebaseapp.com",
+      projectId: "underworld-f7aae",
+      storageBucket: "underworld-f7aae.firebasestorage.app",
+      messagingSenderId: "1054711880818",
+      appId: "1:1054711880818:web:4ce58efcb3dbd3374ab6eb"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let products = [];
+
+    async function fetchProducts() {
+      const grid = document.getElementById("productGrid");
+      try {
+        const querySnapshot = await getDocs(collection(db, "products"));
+        products = [];
+        querySnapshot.forEach(doc => products.push({ id: doc.id, ...doc.data() }));
+        render('all');
+      } catch (err) {
+        grid.innerHTML = `<div class="loading">ইরর: ${err.message}</div>`;
+      }
+    }
+
+    window.filterItems = (cat, btn) => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render(cat);
+    };
+
+    function render(category) {
+      const grid = document.getElementById("productGrid");
+      grid.innerHTML = "";
+      const filtered = category === 'all' ? products : products.filter(p => p.category === category);
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="loading">কোনো প্রোডাক্ট পাওয়া যায়নি।</div>`;
+        return;
+      }
+
+      filtered.forEach(p => {
+        grid.innerHTML += `
+          <div class="card">
+            <img src="${p.imageUrl}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/250?text=No+Image'">
+            <div class="card-body">
+              <div>
+                <h3>${p.name}</h3>
+                <div class="price">৳ ${p.price}</div>
+              </div>
+              <button class="buy-btn" onclick="alert('অর্ডার সিস্টেম শীঘ্রই চালু হবে!')">Order Now</button>
             </div>
+          </div>
+        `;
+      });
+    }
 
-            <!-- Desktop Search Bar -->
-            <div class="hidden md:flex flex-1 max-w-sm relative">
-                <input type="text" id="desktop-search" oninput="handleSearch(this.value)" placeholder="Search products..." class="w-full bg-[#fdfbf9] border border-[#dcd1c2] rounded-full py-2 pl-10 pr-4 text-xs text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#3e2b26]">
-                <i class="fas fa-search absolute left-3.5 top-3 text-gray-400 text-xs"></i>
-            </div>
-
-            <!-- Language & Cart -->
-            <div class="flex items-center gap-2.5">
-                <button onclick="toggleLanguage()" id="lang-btn" class="bg-[#e8dfd1] hover:bg-[#dcd1c2] text-dark-coffee text-xs font-bold px-3.5 py-1.5 rounded-full transition">
-                    বাংলা
-                </button>
-
-                <button onclick="toggleCart()" class="relative p-2.5 bg-[#3e2b26] text-white rounded-full hover:bg-black transition shadow-sm">
-                    <i class="fas fa-shopping-bag text-xs"></i>
-                    <span id="cart-count" class="absolute -top-1 -right-1 bg-[#d98270] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Search Bar -->
-        <div class="px-4 pb-3 md:hidden">
-            <div class="relative w-full">
-                <input type="text" id="mobile-search" oninput="handleSearch(this.value)" placeholder="Search products..." class="w-full bg-[#fdfbf9] border border-[#dcd1c2] rounded-full py-2 pl-9 pr-4 text-xs text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#3e2b26]">
-                <i class="fas fa-search absolute left-3 top-2.5 text-gray-400 text-xs"></i>
-            </div>
-        </div>
-    </header>
-
-    <div class="container mx-auto px-4 pt-4">
-        
-        <!-- Hero Section -->
-        <section class="bg-sand-hero rounded-3xl p-6 md:p-12 overflow-hidden relative border border-[#ded3c3] flex flex-col-reverse md:flex-row items-center justify-between gap-8">
-            <div class="max-w-md z-10 text-center md:text-left">
-                <span class="text-[11px] md:text-xs tracking-[0.25em] font-bold text-[#82716a] uppercase block mb-2">Modern Unisex Fashion</span>
-                <h1 id="hero-title" class="text-3xl md:text-5xl font-cinzel font-bold text-dark-coffee leading-tight mb-3">
-                    THE SIGNATURE <br>OF STYLE!
-                </h1>
-                <p id="hero-subtitle" class="text-[#64534e] text-xs md:text-sm mb-6 leading-relaxed">
-                    Elevate Your Style. Premium fashion, modern accessories, smart lifestyle & aesthetic essentials for everyone.
-                </p>
-                <div class="flex items-center justify-center md:justify-start">
-                    <button onclick="scrollToProducts()" class="btn-coffee text-xs font-bold px-8 py-3 rounded-full uppercase tracking-wider transition">Shop Now</button>
-                </div>
-            </div>
-
-            <!-- Unisex Model Image -->
-            <div class="w-full md:w-1/2 flex justify-center">
-                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop" alt="Fashion Models" class="rounded-2xl max-h-[380px] w-full object-cover shadow-sm">
-            </div>
-        </section>
-
-        <!-- 4 Badges -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 my-8">
-            <div class="bg-white p-4 rounded-2xl border border-[#e5dcce] flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-[#f7f3ec] text-dark-coffee flex items-center justify-center text-sm shrink-0">
-                    <i class="fas fa-truck-fast"></i>
-                </div>
-                <div>
-                    <h4 class="font-bold text-xs text-gray-800">Free Delivery</h4>
-                    <p class="text-[10px] text-gray-500">Orders above ৳২,০০০</p>
-                </div>
-            </div>
-
-            <div class="bg-white p-4 rounded-2xl border border-[#e5dcce] flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-[#f7f3ec] text-dark-coffee flex items-center justify-center text-sm shrink-0">
-                    <i class="fas fa-box-open"></i>
-                </div>
-                <div>
-                    <h4 class="font-bold text-xs text-gray-800">Easy Returns</h4>
-                    <p class="text-[10px] text-gray-500">7 Days return policy</p>
-                </div>
-            </div>
-
-            <div class="bg-white p-4 rounded-2xl border border-[#e5dcce] flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-[#f7f3ec] text-dark-coffee flex items-center justify-center text-sm shrink-0">
-                    <i class="fas fa-headset"></i>
-                </div>
-                <div>
-                    <h4 class="font-bold text-xs text-gray-800">Customer Support</h4>
-                    <p class="text-[10px] text-gray-500">24/7 Dedicated help</p>
-                </div>
-            </div>
-
-            <div class="bg-white p-4 rounded-2xl border border-[#e5dcce] flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-[#f7f3ec] text-dark-coffee flex items-center justify-center text-sm shrink-0">
-                    <i class="fas fa-shield-halved"></i>
-                </div>
-                <div>
-                    <h4 class="font-bold text-xs text-gray-800">Secure Guarantee</h4>
-                    <p class="text-[10px] text-gray-500">100% Cash on delivery</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Categories Section -->
-        <section class="bg-sand-hero rounded-3xl p-6 border border-[#ded3c3] my-8">
-            <h3 class="text-center font-cinzel text-xl md:text-2xl font-bold text-dark-coffee mb-6">Categories</h3>
-            <div class="flex overflow-x-auto gap-4 md:gap-6 justify-start md:justify-center scrollbar-none pb-2" id="round-category-bar"></div>
-        </section>
-
-    </div>
-
-    <!-- Main Products Showcase -->
-    <main class="container mx-auto px-4" id="main-products-sec">
-        <div id="home-view" class="space-y-12"></div>
-
-        <!-- Single Category View -->
-        <div id="category-view" class="hidden">
-            <div class="flex justify-between items-center mb-6 pb-2 border-b border-[#e5dcce]">
-                <h3 id="cat-view-title" class="text-xl md:text-2xl font-bold font-cinzel text-dark-coffee"></h3>
-                <button onclick="showHomePage()" class="text-xs font-bold text-dark-coffee hover:underline flex items-center gap-1">
-                    <i class="fas fa-arrow-left text-[10px]"></i> <span id="back-home-txt">Back to Home</span>
-                </button>
-            </div>
-            <div id="cat-view-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"></div>
-        </div>
-    </main>
-
-    <!-- Clean Footer (No Admin Links) -->
-    <footer class="mt-20 border-t border-[#e5dcce] bg-sand-hero py-8 text-center text-xs text-gray-600">
-        <div class="container mx-auto px-4">
-            <p>&copy; 2026 <span class="font-bold text-dark-coffee font-cinzel">UNDERWORLD</span>. All Rights Reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Cart Drawer -->
-    <div id="cart-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex justify-end">
-        <div class="bg-[#fdfbf9] w-full max-w-md h-full flex flex-col p-6 shadow-2xl border-l border-[#e5dcce]">
-            <div class="flex justify-between items-center mb-4 border-b border-[#e5dcce] pb-3">
-                <h3 id="cart-drawer-title" class="text-base font-bold font-cinzel text-dark-coffee flex items-center gap-2">
-                    <i class="fas fa-shopping-bag"></i> Shopping Bag
-                </h3>
-                <button onclick="toggleCart()" class="text-2xl text-gray-400 hover:text-gray-700">&times;</button>
-            </div>
-            <div id="cart-items" class="flex-1 space-y-3 overflow-y-auto pr-1"></div>
-            <div class="border-t border-[#e5dcce] pt-4 mt-4">
-                <div class="flex justify-between font-bold text-base mb-4">
-                    <span id="total-txt">Total:</span>
-                    <span class="text-dark-coffee font-black text-lg">৳<span id="cart-total">0</span></span>
-                </div>
-                <button onclick="showCheckout()" id="checkout-btn" class="w-full btn-coffee py-3.5 rounded-full font-bold shadow-md hover:opacity-95 transition">Confirm Order</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Checkout Modal -->
-    <div id="checkout-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-[#fdfbf9] w-full max-w-md p-6 rounded-3xl border border-[#e5dcce] shadow-2xl">
-            <h3 id="form-title" class="text-lg font-bold font-cinzel text-dark-coffee mb-3">Cash On Delivery Order</h3>
-            <form onsubmit="submitOrder(event)" class="space-y-3 text-xs">
-                <input type="text" id="cust-name" placeholder="Full Name" required class="w-full bg-white border border-[#dcd1c2] p-3 rounded-2xl outline-none focus:border-[#3e2b26]">
-                <input type="tel" id="cust-phone" placeholder="Phone Number" required class="w-full bg-white border border-[#dcd1c2] p-3 rounded-2xl outline-none focus:border-[#3e2b26]">
-                <textarea id="cust-address" placeholder="Delivery Address (District, Police Station, Area)" required class="w-full bg-white border border-[#dcd1c2] p-3 rounded-2xl outline-none focus:border-[#3e2b26]" rows="3"></textarea>
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeCheckout()" id="cancel-btn" class="px-5 py-2.5 bg-[#e8dfd1] text-dark-coffee font-bold rounded-full">Cancel</button>
-                    <button type="submit" id="place-order-btn" class="px-6 py-2.5 btn-coffee font-bold rounded-full shadow">Place Order</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Completely Hidden Secret Admin Modal -->
-    <div id="admin-modal" class="fixed inset-0 bg-black/70 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
-        <div class="bg-white p-6 rounded-3xl w-full max-w-lg border border-[#e5dcce] shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeAdmin()" class="absolute top-4 right-4 text-gray-400 hover:text-black font-bold text-lg"><i class="fas fa-times"></i></button>
-            
-            <!-- Login View -->
-            <div id="admin-login-box">
-                <h3 class="text-xl font-bold font-cinzel text-dark-coffee mb-4 text-center">Secret Admin Login</h3>
-                <form onsubmit="verifyAdmin(event)" class="space-y-3">
-                    <input type="password" id="admin-pass-input" placeholder="Enter Admin Password" required class="w-full bg-[#fdfbf9] border border-[#dcd1c2] p-3 rounded-2xl text-sm outline-none focus:border-[#3e2b26]">
-                    <button type="submit" class="w-full btn-coffee font-bold py-3 rounded-2xl text-sm shadow">Verify & Open</button>
-                </form>
-            </div>
-
-            <!-- Dashboard View -->
-            <div id="admin-dashboard-box" class="hidden space-y-6">
-                <div class="flex justify-between items-center border-b pb-3">
-                    <h3 class="text-lg font-bold font-cinzel text-dark-coffee">Admin Dashboard</h3>
-                    <button onclick="logoutAdmin()" class="text-xs text-red-500 font-bold hover:underline">Logout</button>
-                </div>
-
-                <!-- Add Product Form -->
-                <form onsubmit="addNewProduct(event)" class="space-y-3 text-xs bg-[#fdfbf9] p-4 rounded-2xl border border-[#e5dcce]">
-                    <h4 class="font-bold text-dark-coffee text-sm mb-2"><i class="fas fa-plus-circle"></i> Add New Product</h4>
-                    <div>
-                        <label class="block font-semibold mb-1">Product Title</label>
-                        <input type="text" id="p-title" required class="w-full border border-[#dcd1c2] p-2.5 rounded-xl bg-white outline-none">
-                    </div>
-                    <div>
-                        <label class="block font-semibold mb-1">Price (৳)</label>
-                        <input type="number" id="p-price" required class="w-full border border-[#dcd1c2] p-2.5 rounded-xl bg-white outline-none">
-                    </div>
-                    <div>
-                        <label class="block font-semibold mb-1">Direct Image URL</label>
-                        <input type="text" id="p-img" placeholder="https://..." required class="w-full border border-[#dcd1c2] p-2.5 rounded-xl bg-white outline-none">
-                    </div>
-                    <div>
-                        <label class="block font-semibold mb-1">Category</label>
-                        <select id="p-cat" class="w-full border border-[#dcd1c2] p-2.5 rounded-xl bg-white outline-none">
-                            <option value="mens_fashion">Men's fashion</option>
-                            <option value="womans_fashion">Woman's fashion</option>
-                            <option value="smartwatch">Smartwatch</option>
-                            <option value="gift_combo">Gift combo</option>
-                            <option value="shoes">Shoes</option>
-                            <option value="airpods">Airpods</option>
-                            <option value="power_bank">Power bank</option>
-                            <option value="electricity">Electricity</option>
-                            <option value="phone">Phone</option>
-                            <option value="skin_care">Skin care</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="w-full btn-coffee font-bold py-2.5 rounded-xl shadow">Save Product</button>
-                </form>
-
-                <!-- Product List -->
-                <div>
-                    <h4 class="font-bold text-dark-coffee mb-2 text-xs">Manage Existing Products</h4>
-                    <div id="admin-product-list" class="space-y-2 max-h-44 overflow-y-auto pr-1"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Firebase & Logic Script -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCqvllCwLU_c_jcMm7kGtFcfjacqfbv8XE",
-            authDomain: "hisab-ghor-ab9df.firebaseapp.com",
-            projectId: "hisab-ghor-ab9df",
-            storageBucket: "hisab-ghor-ab9df.firebasestorage.app",
-            messagingSenderId: "704142339855",
-            appId: "1:704142339855:web:331d04ae8da79172a2d87a",
-            measurementId: "G-NRV7MVKJHT"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        let currentLang = 'en';
-        let allProducts = [];
-        let cart = [];
-
-        // Secret Triple Tap Trigger on Logo
-        let secretClickCount = 0;
-        let secretTimer = null;
-        window.handleSecretClick = () => {
-            secretClickCount++;
-            clearTimeout(secretTimer);
-            if(secretClickCount >= 3) {
-                openAdminLogin();
-                secretClickCount = 0;
-            } else {
-                secretTimer = setTimeout(() => {
-                    if (secretClickCount < 3) showHomePage();
-                    secretClickCount = 0;
-                }, 400);
-            }
-        };
-
-        // Secret URL Hash Trigger
-        if(window.location.hash === "#admin") {
-            setTimeout(openAdminLogin, 500);
-        }
-
-        window.openAdminLogin = () => {
-            const modal = document.getElementById('admin-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        };
-
-        window.closeAdmin = () => {
-            const modal = document.getElementById('admin-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            window.location.hash = '';
-        };
-
-        window.verifyAdmin = (e) => {
-            e.preventDefault();
-            if(document.getElementById('admin-pass-input').value === "admin123") {
-                document.getElementById('admin-login-box').classList.add('hidden');
-                document.getElementById('admin-dashboard-box').classList.remove('hidden');
-                loadAdminProducts();
-            } else {
-                alert('Wrong Password!');
-            }
-        };
-
-        window.logoutAdmin = () => {
-            document.getElementById('admin-login-box').classList.remove('hidden');
-            document.getElementById('admin-dashboard-box').classList.add('hidden');
-            document.getElementById('admin-pass-input').value = '';
-            closeAdmin();
-        };
-
-        window.addNewProduct = async (e) => {
-            e.preventDefault();
-            const product = {
-                title: document.getElementById('p-title').value,
-                price: document.getElementById('p-price').value,
-                img: document.getElementById('p-img').value,
-                category: document.getElementById('p-cat').value
-            };
-            await addDoc(collection(db, "products"), product);
-            alert('Product Added Successfully!');
-            e.target.reset();
-            loadAdminProducts();
-            loadProducts();
-        };
-
-        async function loadAdminProducts() {
-            const list = document.getElementById('admin-product-list');
-            list.innerHTML = '<p class="text-gray-400 text-xs">Loading...</p>';
-            const snap = await getDocs(collection(db, "products"));
-            list.innerHTML = '';
-            snap.forEach(d => {
-                const p = d.data();
-                list.innerHTML += `
-                    <div class="flex justify-between items-center bg-white border border-[#e5dcce] p-2 rounded-xl text-xs">
-                        <div class="flex items-center gap-2 truncate">
-                            <img src="${p.img}" class="w-8 h-8 object-cover rounded-lg bg-gray-100">
-                            <span class="truncate font-semibold">${p.title}</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-dark-coffee font-bold">৳${p.price}</span>
-                            <button onclick="deleteProd('${d.id}')" class="text-red-500 hover:text-red-700 font-bold px-2"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        window.deleteProd = async (id) => {
-            if(confirm('Are you sure to delete this product?')) {
-                await deleteDoc(doc(db, "products", id));
-                loadAdminProducts();
-                loadProducts();
-            }
-        };
-
-        const categories = [
-            { id: 'mens_fashion', en: "Men's fashion", bn: "ছেলেদের ফ্যাশন", img: "https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=200&auto=format&fit=crop" },
-            { id: 'womans_fashion', en: "Woman's fashion", bn: "মেয়েদের ফ্যাশন", img: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=200&auto=format&fit=crop" },
-            { id: 'smartwatch', en: "Smartwatch", bn: "স্মার্টওয়াচ", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&auto=format&fit=crop" },
-            { id: 'gift_combo', en: "Gift combo", bn: "গিফট কম্বো", img: "https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=200&auto=format&fit=crop" },
-            { id: 'shoes', en: "Shoes", bn: "জুতা", img: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=200&auto=format&fit=crop" },
-            { id: 'airpods', en: "Airpods", bn: "এয়ারপডস", img: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=200&auto=format&fit=crop" },
-            { id: 'power_bank', en: "Power bank", bn: "পাওয়ার ব্যাংক", img: "https://images.unsplash.com/photo-1609592807664-44b41ec950a4?w=200&auto=format&fit=crop" },
-            { id: 'electricity', en: "Electricity", bn: "ইলেকট্রিসিটি", img: "https://images.unsplash.com/photo-1509390144018-e37452d29402?w=200&auto=format&fit=crop" },
-            { id: 'phone', en: "Phone", bn: "ফোন", img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&auto=format&fit=crop" },
-            { id: 'skin_care', en: "Skin care", bn: "স্কিন কেয়ার", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&auto=format&fit=crop" }
-        ];
-
-        const i18n = {
-            en: {
-                heroTitle: "THE SIGNATURE <br>OF STYLE!",
-                heroSubtitle: "Elevate Your Style. Premium fashion, modern accessories, smart lifestyle & aesthetic essentials for everyone.",
-                all: "All",
-                viewAll: "View All",
-                orderBtn: "Order Now",
-                cartTitle: "Shopping Bag",
-                total: "Total:",
-                confirmOrder: "Confirm Order",
-                checkoutTitle: "Cash On Delivery Order",
-                namePh: "Full Name",
-                phonePh: "Phone Number",
-                addrPh: "Delivery Address (District, Thana, Road/House)",
-                cancel: "Cancel",
-                placeOrder: "Place Order",
-                backHome: "Back to Home",
-                emptyCart: "Cart is empty!",
-                addedAlert: "Added to bag successfully!",
-                orderSuccess: "Thank you! Your order has been placed successfully."
-            },
-            bn: {
-                heroTitle: "স্টাইলের অনন্য <br>স্বাক্ষর!",
-                heroSubtitle: "আপনার স্টাইলকে করুন আরও আকর্ষণীয়। ছেলে ও মেয়েদের সেরা পোশাক, আধুনিক গ্যাজেট এবং লাইফস্টাইল কালেকশন।",
-                all: "সব প্রোডাক্ট",
-                viewAll: "সব দেখুন",
-                orderBtn: "অর্ডার করুন",
-                cartTitle: "শপিং ব্যাগ",
-                total: "সর্বমোট:",
-                confirmOrder: "অর্ডার কনফার্ম করুন",
-                checkoutTitle: "ক্যাশ অন ডেলিভারি অর্ডার",
-                namePh: "আপনার পুরো নাম",
-                phonePh: "মোবাইল নম্বর",
-                addrPh: "ডেলিভারি ঠিকানা (জেলা, থানা, এলাকা/রোড নং)",
-                cancel: "বাতিল",
-                placeOrder: "অর্ডার প্লেস করুন",
-                backHome: "হোমপেজে ফিরুন",
-                emptyCart: "ব্যাগ খালি!",
-                addedAlert: "পণ্যটি ব্যাগে যোগ করা হয়েছে!",
-                orderSuccess: "ধন্যবাদ! আপনার অর্ডারটি সফলভাবে গ্রহণ করা হয়েছে।"
-            }
-        };
-
-        window.toggleLanguage = function() {
-            currentLang = currentLang === 'en' ? 'bn' : 'en';
-            document.getElementById('lang-btn').innerText = currentLang === 'en' ? 'বাংলা' : 'English';
-            updateStaticText();
-            renderCategoryRoundBar();
-            showHomePage();
-        };
-
-        function updateStaticText() {
-            const t = i18n[currentLang];
-            document.getElementById('hero-title').innerHTML = t.heroTitle;
-            document.getElementById('hero-subtitle').innerText = t.heroSubtitle;
-            document.getElementById('cart-drawer-title').innerHTML = `<i class="fas fa-shopping-bag"></i> ${t.cartTitle}`;
-            document.getElementById('total-txt').innerText = t.total;
-            document.getElementById('checkout-btn').innerText = t.confirmOrder;
-            document.getElementById('form-title').innerText = t.checkoutTitle;
-            document.getElementById('cust-name').placeholder = t.namePh;
-            document.getElementById('cust-phone').placeholder = t.phonePh;
-            document.getElementById('cust-address').placeholder = t.addrPh;
-            document.getElementById('cancel-btn').innerText = t.cancel;
-            document.getElementById('place-order-btn').innerText = t.placeOrder;
-            document.getElementById('back-home-txt').innerText = t.backHome;
-        }
-
-        function renderCategoryRoundBar() {
-            const bar = document.getElementById('round-category-bar');
-            let html = `
-                <div onclick="showHomePage()" class="flex flex-col items-center cursor-pointer group min-w-[70px]">
-                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#3e2b26] text-white flex items-center justify-center font-bold text-xs shadow group-hover:scale-105 transition">ALL</div>
-                    <span class="text-[11px] font-bold mt-2 text-dark-coffee">${i18n[currentLang].all}</span>
-                </div>
-            `;
-            categories.forEach(c => {
-                const title = currentLang === 'en' ? c.en : c.bn;
-                html += `
-                    <div onclick="viewFullCategory('${c.id}')" class="flex flex-col items-center cursor-pointer group min-w-[75px]">
-                        <img src="${c.img}" class="w-14 h-14 md:w-16 md:h-16 rounded-full object-cover border-2 border-white shadow group-hover:scale-105 transition">
-                        <span class="text-[11px] font-medium mt-2 text-gray-700 group-hover:text-dark-coffee text-center line-clamp-1">${title}</span>
-                    </div>
-                `;
-            });
-            bar.innerHTML = html;
-        }
-
-        async function loadProducts() {
-            const snap = await getDocs(collection(db, "products"));
-            allProducts = [];
-            snap.forEach(d => allProducts.push({ id: d.id, ...d.data() }));
-            renderCategoryRoundBar();
-            showHomePage();
-        }
-
-        function getCardHTML(p) {
-            const t = i18n[currentLang];
-            return `
-                <div class="card-aesthetic p-3.5 flex flex-col justify-between group">
-                    <div class="overflow-hidden rounded-xl bg-sand-hero mb-3">
-                        <img src="${p.img}" alt="${p.title}" class="h-44 sm:h-56 w-full object-cover group-hover:scale-105 transition duration-500">
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-xs sm:text-sm text-gray-800 line-clamp-1 group-hover:text-dark-coffee">${p.title}</h4>
-                        <p class="text-dark-coffee font-black text-sm sm:text-base mt-1">৳${p.price}</p>
-                    </div>
-                    <button onclick="addToCart('${p.id}')" class="mt-3 w-full btn-coffee text-xs py-2 rounded-xl font-bold transition">${t.orderBtn}</button>
-                </div>
-            `;
-        }
-
-        window.showHomePage = function() {
-            document.getElementById('category-view').classList.add('hidden');
-            const home = document.getElementById('home-view');
-            home.classList.remove('hidden');
-            home.innerHTML = '';
-            const t = i18n[currentLang];
-
-            categories.forEach(cat => {
-                const prods = allProducts.filter(p => p.category === cat.id);
-                if (prods.length === 0) return;
-
-                const topFour = prods.slice(0, 4);
-                const title = currentLang === 'en' ? cat.en : cat.bn;
-
-                home.innerHTML += `
-                    <section>
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg md:text-xl font-cinzel font-bold text-dark-coffee border-l-4 border-[#3e2b26] pl-2.5">${title}</h3>
-                            <button onclick="viewFullCategory('${cat.id}')" class="text-xs font-bold text-dark-coffee hover:underline flex items-center gap-1">
-                                ${t.viewAll} (${prods.length}) <i class="fas fa-arrow-right text-[10px]"></i>
-                            </button>
-                        </div>
-                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                            ${topFour.map(p => getCardHTML(p)).join('')}
-                        </div>
-                    </section>
-                `;
-            });
-        };
-
-        window.viewFullCategory = function(catId) {
-            document.getElementById('home-view').classList.add('hidden');
-            const catView = document.getElementById('category-view');
-            catView.classList.remove('hidden');
-
-            const cat = categories.find(c => c.id === catId);
-            const prods = allProducts.filter(p => p.category === catId);
-            const title = currentLang === 'en' ? cat.en : cat.bn;
-
-            document.getElementById('cat-view-title').innerText = `${title} (${prods.length})`;
-            document.getElementById('cat-view-grid').innerHTML = prods.map(p => getCardHTML(p)).join('');
-            scrollToProducts();
-        };
-
-        window.handleSearch = function(query) {
-            if(!query.trim()) {
-                showHomePage();
-                return;
-            }
-            document.getElementById('home-view').classList.add('hidden');
-            const catView = document.getElementById('category-view');
-            catView.classList.remove('hidden');
-
-            const filtered = allProducts.filter(p => p.title.toLowerCase().includes(query.toLowerCase()));
-            document.getElementById('cat-view-title').innerText = `Search: "${query}" (${filtered.length})`;
-            document.getElementById('cat-view-grid').innerHTML = filtered.map(p => getCardHTML(p)).join('');
-        };
-
-        window.scrollToProducts = function() {
-            document.getElementById('main-products-sec').scrollIntoView({ behavior: 'smooth' });
-        };
-
-        window.addToCart = function(id) {
-            const p = allProducts.find(item => item.id === id);
-            cart.push(p);
-            document.getElementById('cart-count').innerText = cart.length;
-            renderCartDrawer();
-            alert(i18n[currentLang].addedAlert);
-        };
-
-        window.toggleCart = () => document.getElementById('cart-modal').classList.toggle('hidden');
-
-        function renderCartDrawer() {
-            const container = document.getElementById('cart-items');
-            container.innerHTML = '';
-            let total = 0;
-            cart.forEach((p, idx) => {
-                total += Number(p.price);
-                container.innerHTML += `
-                    <div class="flex justify-between items-center border-b border-[#e5dcce] pb-2 text-xs">
-                        <div>
-                            <p class="font-bold text-gray-800">${p.title}</p>
-                            <p class="text-dark-coffee font-bold">৳${p.price}</p>
-                        </div>
-                        <button onclick="removeFromCart(${idx})" class="text-red-600 font-bold p-1">&times;</button>
-                    </div>
-                `;
-            });
-            document.getElementById('cart-total').innerText = total;
-        }
-
-        window.removeFromCart = function(idx) {
-            cart.splice(idx, 1);
-            document.getElementById('cart-count').innerText = cart.length;
-            renderCartDrawer();
-        };
-
-        window.showCheckout = function() {
-            if(cart.length === 0) return alert(i18n[currentLang].emptyCart);
-            toggleCart();
-            document.getElementById('checkout-modal').classList.remove('hidden');
-        };
-
-        window.closeCheckout = () => document.getElementById('checkout-modal').classList.add('hidden');
-
-        window.submitOrder = async function(e) {
-            e.preventDefault();
-            const order = {
-                name: document.getElementById('cust-name').value,
-                phone: document.getElementById('cust-phone').value,
-                address: document.getElementById('cust-address').value,
-                items: cart,
-                total: document.getElementById('cart-total').innerText,
-                date: new Date().toLocaleString()
-            };
-
-            await addDoc(collection(db, "orders"), order);
-            alert(i18n[currentLang].orderSuccess);
-            cart = [];
-            document.getElementById('cart-count').innerText = 0;
-            closeCheckout();
-        };
-
-        loadProducts();
-    </script>
+    fetchProducts();
+  </script>
 </body>
 </html>
